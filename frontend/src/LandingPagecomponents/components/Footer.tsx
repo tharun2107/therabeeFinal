@@ -1,7 +1,6 @@
 import React from "react";
 import { Separator } from "./ui/separator";
 import { Heart, Linkedin, Twitter, Instagram, Mail, Phone, MapPin } from "lucide-react";
-import { motion } from "framer-motion";
 
 interface FooterProps {
   darkMode?: boolean
@@ -16,115 +15,10 @@ const Footer: React.FC<FooterProps> = ({ darkMode = false }) => {
         ? 'bg-black text-white' 
         : 'bg-[#1A1A1A] text-white'
     }`}>
-      {/* Enhanced gradient line at top with glow */}
-      <div className={`h-1 relative ${
+      {/* Top border */}
+      <div className={`h-1 ${
         darkMode ? 'bg-accent-blue' : 'bg-accent-blue'
-      }`}>
-        <motion.div
-          className={`absolute inset-0 ${
-            darkMode ? 'bg-accent-blue' : 'bg-accent-blue'
-          }`}
-          animate={{
-            opacity: [0.5, 1, 0.5],
-            scaleX: [0.8, 1, 0.8]
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          style={{
-            filter: 'blur(8px)',
-            boxShadow: darkMode 
-              ? '0 0 20px rgba(167, 199, 231, 0.3)' 
-              : '0 0 20px rgba(167, 199, 231, 0.4)'
-          }}
-        />
-      </div>
-
-      {/* Enhanced background lighting effects */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Animated light rays */}
-        <motion.div
-          className={`absolute top-0 left-1/4 w-px h-full ${
-            darkMode ? 'bg-accent-blue/20' : 'bg-accent-blue/30'
-          }`}
-          animate={{
-            opacity: [0.3, 0.6, 0.3],
-            x: [-20, 20, -20]
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className={`absolute top-0 left-1/2 w-px h-full ${
-            darkMode ? 'bg-accent-green/20' : 'bg-accent-green/30'
-          }`}
-          animate={{
-            opacity: [0.3, 0.6, 0.3],
-            x: [20, -20, 20]
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1
-          }}
-        />
-        <motion.div
-          className={`absolute top-0 right-1/4 w-px h-full ${
-            darkMode ? 'bg-accent-blue/20' : 'bg-accent-blue/30'
-          }`}
-          animate={{
-            opacity: [0.3, 0.6, 0.3],
-            x: [-15, 15, -15]
-          }}
-          transition={{
-            duration: 4.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }}
-        />
-        
-        {/* Floating glow orbs */}
-        <motion.div
-          className={`absolute top-20 left-10 w-32 h-32 rounded-full blur-3xl ${
-            darkMode ? 'bg-accent-blue/10' : 'bg-accent-blue/15'
-          }`}
-          animate={{
-            scale: [1, 1.5, 1],
-            opacity: [0.3, 0.6, 0.3],
-            x: [0, 30, 0],
-            y: [0, 20, 0]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className={`absolute bottom-20 right-20 w-40 h-40 rounded-full blur-3xl ${
-            darkMode ? 'bg-accent-green/10' : 'bg-accent-green/15'
-          }`}
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.3, 0.5, 0.3],
-            x: [0, -25, 0],
-            y: [0, -15, 0]
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }}
-        />
-      </div>
+      }`} />
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 relative z-10">
         {/* Main Footer Content */}
@@ -132,9 +26,7 @@ const Footer: React.FC<FooterProps> = ({ darkMode = false }) => {
           {/* Company Info */}
           <div className="space-y-6">
             <div className="space-y-4">
-              <h3 className={`text-2xl font-bold ${
-                darkMode ? 'text-white' : 'text-white'
-              }`}>Therabee</h3>
+              <h3 className="text-2xl font-bold text-white">Therabee</h3>
               <p className="text-gray-300 leading-relaxed">
                 Connecting children with trusted therapists through secure, 
                 accessible, and innovative technology solutions.
@@ -166,14 +58,12 @@ const Footer: React.FC<FooterProps> = ({ darkMode = false }) => {
             <ul className="space-y-2 sm:space-y-3">
               {['About Us', 'How It Works', 'Find Therapists', 'Pricing', 'Blog'].map((link) => (
                 <li key={link}>
-                  <motion.a 
+                  <a 
                     href="#" 
-                    className={`text-gray-300 hover:text-accent-blue transition-colors text-sm block`}
-                    whileHover={{ x: 5 }}
-                    transition={{ duration: 0.2 }}
+                    className="text-gray-300 hover:text-accent-blue transition-colors text-sm block"
                   >
                     {link}
-                  </motion.a>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -187,14 +77,12 @@ const Footer: React.FC<FooterProps> = ({ darkMode = false }) => {
             <ul className="space-y-2 sm:space-y-3">
               {['Help Center', 'Contact Support', 'Safety & Privacy', 'Community Guidelines', 'Emergency Resources', 'System Status'].map((link) => (
                 <li key={link}>
-                  <motion.a 
+                  <a 
                     href="#" 
-                    className={`text-gray-300 hover:text-accent-blue transition-colors text-sm block`}
-                    whileHover={{ x: 5 }}
-                    transition={{ duration: 0.2 }}
+                    className="text-gray-300 hover:text-accent-blue transition-colors text-sm block"
                   >
                     {link}
-                  </motion.a>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -208,14 +96,12 @@ const Footer: React.FC<FooterProps> = ({ darkMode = false }) => {
             <ul className="space-y-2 sm:space-y-3">
               {['Privacy Policy', 'Terms of Service', 'HIPAA Compliance', 'Cookie Policy', 'Accessibility'].map((link) => (
                 <li key={link}>
-                  <motion.a 
+                  <a 
                     href="#" 
-                    className={`text-gray-300 hover:text-accent-blue transition-colors text-sm block`}
-                    whileHover={{ x: 5 }}
-                    transition={{ duration: 0.2 }}
+                    className="text-gray-300 hover:text-accent-blue transition-colors text-sm block"
                   >
                     {link}
-                  </motion.a>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -231,31 +117,16 @@ const Footer: React.FC<FooterProps> = ({ darkMode = false }) => {
                   { icon: Twitter, href: '#', label: 'Twitter' },
                   { icon: Instagram, href: '#', label: 'Instagram' }
                 ].map((social) => (
-                  <motion.a
+                  <a
                     key={social.label}
                     href={social.href}
-                    className={`w-10 h-10 rounded-full flex items-center justify-center hover:shadow-xl transition-all group relative overflow-hidden ${
+                    className={`w-10 h-10 rounded-full flex items-center justify-center hover:shadow-lg transition-shadow ${
                       darkMode ? 'bg-accent-blue/30' : 'bg-accent-blue/40'
                     }`}
                     aria-label={social.label}
-                    whileHover={{ scale: 1.1, rotate: 360 }}
-                    transition={{ duration: 0.5 }}
-                    style={{
-                      boxShadow: darkMode 
-                        ? '0 4px 15px rgba(167, 199, 231, 0.3)' 
-                        : '0 4px 15px rgba(167, 199, 231, 0.4)'
-                    }}
                   >
-                    <social.icon className="w-4 h-4 text-white relative z-10 group-hover:scale-110 transition-transform" />
-                    <motion.div
-                      className={`absolute inset-0 ${
-                        darkMode ? 'bg-accent-blue' : 'bg-accent-blue'
-                      }`}
-                      initial={{ scale: 0 }}
-                      whileHover={{ scale: 1 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </motion.a>
+                    <social.icon className="w-4 h-4 text-white" />
+                  </a>
                 ))}
               </div>
             </div>
@@ -271,60 +142,35 @@ const Footer: React.FC<FooterProps> = ({ darkMode = false }) => {
             <span className="hidden sm:inline">•</span>
             <span className="flex items-center space-x-1">
               <span>Made with</span>
-              <motion.div
-                animate={{
-                  scale: [1, 1.2, 1]
-                }}
-                transition={{
-                  duration: 1,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
-                <Heart className="w-3 h-3 sm:w-4 sm:h-4 text-red-500 fill-current" />
-              </motion.div>
+              <Heart className="w-3 h-3 sm:w-4 sm:h-4 text-red-500 fill-current" />
               <span>for families</span>
             </span>
           </div>
 
           {/* Certifications */}
           <div className="flex items-center space-x-2 sm:space-x-4">
-            <motion.div 
-              className={`px-2 sm:px-3 py-1 rounded ${darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'} shadow-lg`}
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.2 }}
-            >
+            <div className={`px-2 sm:px-3 py-1 rounded ${darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'} shadow-lg`}>
               <span className={`text-[10px] sm:text-xs font-semibold ${darkMode ? 'text-accent-blue' : 'text-[#1A1A1A]'}`}>HIPAA Compliant</span>
-            </motion.div>
-            <motion.div 
-              className={`px-2 sm:px-3 py-1 rounded ${darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'} shadow-lg`}
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.2 }}
-            >
+            </div>
+            <div className={`px-2 sm:px-3 py-1 rounded ${darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'} shadow-lg`}>
               <span className={`text-[10px] sm:text-xs font-semibold ${darkMode ? 'text-accent-blue' : 'text-[#1A1A1A]'}`}>SOC 2 Certified</span>
-            </motion.div>
+            </div>
           </div>
         </div>
 
         {/* Emergency Notice */}
-        <motion.div 
-          className={`mt-6 sm:mt-8 p-3 sm:p-4 rounded-lg ${
-            darkMode 
-              ? 'bg-red-900/30 border border-red-800' 
-              : 'bg-red-50 border border-red-200'
-          }`}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-        >
+        <div className={`mt-6 sm:mt-8 p-3 sm:p-4 rounded-lg ${
+          darkMode 
+            ? 'bg-red-900/30 border border-red-800' 
+            : 'bg-red-50 border border-red-200'
+        }`}>
           <p className={`text-sm text-center ${
             darkMode ? 'text-red-300' : 'text-red-700'
           }`}>
             <strong>Crisis Support:</strong> If you or your child are experiencing a mental health emergency, 
             please call <a href="tel:988" className="underline font-semibold">988</a> (Suicide & Crisis Lifeline) or go to your nearest emergency room immediately.
           </p>
-        </motion.div>
+        </div>
       </div>
     </footer>
   );
