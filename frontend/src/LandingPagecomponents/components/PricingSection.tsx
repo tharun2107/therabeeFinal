@@ -231,46 +231,12 @@ const PricingSection: React.FC<PricingSectionProps> = ({ darkMode = false }) => 
           ))}
         </div>
 
-        {/* Payment Icons */}
+        {/* Money Back Guarantee */}
         <motion.div 
-          className="text-center mt-12 sm:mt-16"
+          className="text-center mt-12 sm:mt-16 px-4"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
-        >
-          <p className={`text-sm sm:text-base mb-4 sm:mb-6 px-4 ${
-            darkMode ? 'text-gray-400' : 'text-gray-600'
-          }`}>
-            Secure payments powered by industry leaders
-          </p>
-          <div className="flex justify-center items-center space-x-4 sm:space-x-8 px-4">
-            <div className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-lg ${
-              darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'
-            }`}>
-              <span className={`font-semibold text-sm sm:text-base ${
-                darkMode ? 'text-accent-blue' : 'text-[#1A1A1A]'
-              }`}>
-                Stripe
-              </span>
-            </div>
-            <div className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-lg ${
-              darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'
-            }`}>
-              <span className={`font-semibold text-sm sm:text-base ${
-                darkMode ? 'text-accent-blue' : 'text-[#1A1A1A]'
-              }`}>
-                Razorpay
-              </span>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Money Back Guarantee */}
-        <motion.div 
-          className="text-center mt-8 sm:mt-12 px-4"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
         >
           <div className={`rounded-2xl p-4 sm:p-6 max-w-md mx-auto shadow-xl border ${
             darkMode 

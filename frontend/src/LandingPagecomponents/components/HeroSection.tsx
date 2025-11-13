@@ -17,37 +17,51 @@ const HeroSection: React.FC<HeroSectionProps> = ({ darkMode = false, onBookDemoC
   return (
     <section 
       ref={ref}
-      className={`relative min-h-screen flex items-center justify-center transition-colors duration-300 ${
+      className={`relative min-h-screen flex items-center justify-center transition-colors duration-300 overflow-hidden ${
         darkMode 
           ? 'bg-black' 
           : 'bg-[#F9F9F9]'
       }`}
     >
-      <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center">
+      {/* Background Grid Pattern */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: darkMode 
+            ? 'linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px)'
+            : 'linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px)',
+          backgroundSize: '100px 100px'
+        }}
+      ></div>
+      
+
+      <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center relative z-10">
         {/* Left Content */}
         <div className="text-center lg:text-left space-y-8">
           <motion.div 
-            className="space-y-4"
+            className="space-y-6"
             initial={{ opacity: 0, y: 50 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold leading-tight ${
+            <h1 className={`text-4xl md:text-5xl lg:text-5xl font-bold leading-[1.1] tracking-tight ${
               darkMode ? 'text-white' : 'text-[#1A1A1A]'
             }`}>
-              Connecting Children with{" "}
+              Nurturing your child's development with{" "}
               <span className={darkMode ? 'text-accent-blue' : 'text-[#1A1A1A]'}>
-                Trusted Therapists
-              </span>,{" "}
-              <span className={darkMode ? 'text-white' : 'text-[#4D4D4D]'}>
-                Anytime, Anywhere
+                Qualified Therapists
+              </span>.
+              <br className="hidden sm:block" />
+              <span className={`text-3xl md:text-4xl lg:text-5xl font-semibold ${
+                darkMode ? 'text-gray-300' : 'text-[#4D4D4D]'
+              }`}>
+                {" "}Anytime. Anywhere.
               </span>
             </h1>
-            <p className={`text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed ${
+            <p className={`text-base md:text-lg lg:text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal ${
               darkMode ? 'text-gray-300' : 'text-[#4D4D4D]'
             }`}>
-              Therabee helps families find verified therapists, book secure sessions, 
-              and track progress — all in one place.
+              Therabee helps families access expert therapy that is simple, supportive and effective.
             </p>
           </motion.div>
 
@@ -92,31 +106,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ darkMode = false, onBookDemoC
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
           >
-            <p className={`text-sm mb-4 ${
-              darkMode ? 'text-gray-300' : 'text-[#4D4D4D]'
-            }`}>Trusted by leading healthcare providers</p>
-            <div className="flex flex-wrap justify-center lg:justify-start items-center gap-6">
-              <div className={`text-sm font-semibold px-3 py-1 rounded-full ${
-                darkMode 
-                  ? 'text-gray-300 bg-white/10' 
-                  : 'text-[#4D4D4D] bg-white border border-[#E6E6E6]'
-              }`}>Mayo Clinic</div>
-              <div className={`text-sm font-semibold px-3 py-1 rounded-full ${
-                darkMode 
-                  ? 'text-gray-300 bg-white/10' 
-                  : 'text-[#4D4D4D] bg-white border border-[#E6E6E6]'
-              }`}>Johns Hopkins</div>
-              <div className={`text-sm font-semibold px-3 py-1 rounded-full ${
-                darkMode 
-                  ? 'text-gray-300 bg-white/10' 
-                  : 'text-[#4D4D4D] bg-white border border-[#E6E6E6]'
-              }`}>Cleveland Clinic</div>
-              <div className={`text-sm font-semibold px-3 py-1 rounded-full ${
-                darkMode 
-                  ? 'text-accent-blue bg-accent-blue/20' 
-                  : 'text-[#1A1A1A] bg-accent-blue/20'
-              }`}>+500 more</div>
-            </div>
           </motion.div>
         </div>
 
@@ -127,7 +116,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ darkMode = false, onBookDemoC
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
         >
-          <div className="relative rounded-2xl overflow-hidden shadow-lg">
+          <div className="relative rounded-2xl overflow-hidden">
             <img
               src={heroImage}
               alt="Child having a therapy session with a professional therapist via video call"

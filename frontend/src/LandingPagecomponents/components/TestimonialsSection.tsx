@@ -1,8 +1,9 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Card, CardContent } from "./ui/card";
-import { Star, Quote } from "lucide-react";
+import { Star, Quote, ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 interface TestimonialsSectionProps {
   darkMode?: boolean
@@ -10,39 +11,18 @@ interface TestimonialsSectionProps {
 
 const testimonials = [
   {
-    name: "Sarah Johnson",
-    role: "Parent",
-    content: "Therabee transformed how we approach my daughter's therapy. The convenience of home sessions and the quality of therapists exceeded our expectations.",
+    name: "Parent of a 7-year-old",
+    role: "with ADHD and learning challenges",
+    content: "TheraBee has been a turning point for us. The therapists not only helped our son focus and communicate better, but also guided us as parents to support him at home. Every milestone, no matter how small, is celebrated here. We've felt seen, supported, and truly cared for every step of the way. It's more than a therapy center — it's a place filled with hope and heart.",
     rating: 5,
-    avatar: "SJ"
+    avatar: "P1"
   },
   {
-    name: "Dr. Michael Chen",
-    role: "Licensed Therapist",
-    content: "As a therapist, I love how Therabee streamlines my practice. The scheduling, payments, and progress tracking tools are incredibly intuitive.",
+    name: "Parent of a 5-year-old",
+    role: "with Speech Delay",
+    content: "Online therapy at TheraBee has been a blessing for us. The team adapted everything — from activities to parent involvement — so smoothly. My daughter actually looks forward to her sessions! It's convenient, consistent, and still full of warmth and care.",
     rating: 5,
-    avatar: "MC"
-  },
-  {
-    name: "Emma Rodriguez",
-    role: "Parent",
-    content: "Finding the right therapist for my son was always challenging. Therabee made it simple, and the results have been amazing.",
-    rating: 5,
-    avatar: "ER"
-  },
-  {
-    name: "Dr. Amanda Foster",
-    role: "Child Psychologist",
-    content: "The platform's security features and HIPAA compliance give me confidence that my patients' information is always protected.",
-    rating: 5,
-    avatar: "AF"
-  },
-  {
-    name: "James Mitchell",
-    role: "Parent",
-    content: "The progress tracking feature helps me stay involved in my child's therapy journey. It's reassuring to see the improvements over time.",
-    rating: 5,
-    avatar: "JM"
+    avatar: "P2"
   }
 ];
 
@@ -102,7 +82,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ darkMode = fa
 
         {/* Testimonials Carousel */}
         <motion.div 
-          className="max-w-4xl mx-auto"
+          className="max-w-5xl mx-auto"
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
@@ -117,9 +97,9 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ darkMode = fa
                   key={index} 
                   className="w-full flex-shrink-0 px-4 sm:px-6"
                 >
-                  <Card className={`border-0 shadow-lg hover:shadow-xl max-w-3xl mx-auto transition-shadow duration-300 ${
+                  <Card className={`border shadow-lg hover:shadow-xl max-w-4xl mx-auto transition-shadow duration-300 ${
                     darkMode 
-                      ? 'bg-black border-gray-700' 
+                      ? 'bg-gray-900 border-gray-700' 
                       : 'bg-white border-[#E6E6E6]'
                   }`}>
                     <CardContent className="p-6 sm:p-8 text-center">
@@ -196,37 +176,39 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ darkMode = fa
           </motion.div>
         </motion.div>
 
-        {/* Stats */}
+        {/* CTA Box */}
         <motion.div 
-          className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mt-12 sm:mt-16"
+          className="text-center mt-12 sm:mt-16"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+          transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
         >
-          {[
-            { value: "500+", label: "Verified Therapists" },
-            { value: "10k+", label: "Successful Sessions" },
-            { value: "98%", label: "Family Satisfaction" }
-          ].map((stat, index) => (
-            <motion.div 
-              key={stat.label}
-              className="text-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.5, delay: 0.8 + index * 0.1, ease: "easeOut" }}
-            >
-              <div className={`text-3xl sm:text-4xl lg:text-5xl font-bold mb-2 ${
-                darkMode ? 'text-accent-blue' : 'text-[#1A1A1A]'
+          <div className={`rounded-2xl p-8 sm:p-12 lg:p-16 shadow-lg max-w-6xl mx-auto border ${
+            darkMode 
+              ? 'bg-black border-gray-700' 
+              : 'bg-white border-[#E6E6E6]'
+          }`}>
+            <h3 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 ${
+              darkMode ? 'text-white' : 'text-gray-800'
+            }`}>
+              Ready to take next step?
+            </h3>
+            <p className={`text-base sm:text-lg md:text-xl mb-8 sm:mb-10 ${
+              darkMode ? 'text-gray-300' : 'text-gray-600'
+            }`}>
+              join families growing with therabee
+            </p>
+            <Link to="/login">
+              <button className={`px-8 sm:px-12 py-4 sm:py-5 md:py-6 font-semibold rounded-lg hover:shadow-lg transition-shadow duration-300 text-lg sm:text-xl md:text-2xl flex items-center justify-center mx-auto ${
+                darkMode 
+                  ? 'bg-white text-black hover:bg-gray-200' 
+                  : 'bg-black text-white hover:bg-[#1A1A1A]'
               }`}>
-                {stat.value}
-              </div>
-              <div className={`text-sm sm:text-base ${
-                darkMode ? 'text-gray-400' : 'text-gray-600'
-              }`}>
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
+                Sign In
+                <ArrowRight className="ml-2 h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+              </button>
+            </Link>
+          </div>
         </motion.div>
       </div>
     </section>

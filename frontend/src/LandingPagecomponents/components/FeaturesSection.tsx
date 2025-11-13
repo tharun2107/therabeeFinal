@@ -1,43 +1,38 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Shield, Video, Calendar, CreditCard, Bell, BarChart3, ArrowRight } from "lucide-react";
+import { Brain, Activity, MessageSquare, Heart, Users, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface FeaturesSectionProps {
   darkMode?: boolean
 }
 
-const features = [
+const services = [
   {
-    icon: Shield,
-    title: "Secure Authentication & Privacy",
-    description: "HIPAA-compliant platform with end-to-end encryption to protect your family's sensitive information."
+    icon: Brain,
+    title: "BEHAVIOR THERAPY",
+    description: "Behavior therapy is crucial for helping children with autism and ADHD develop better self-regulation, reduce challenging behaviors, and improve attention and focus. It fosters positive social interactions, enhances adaptability across environments, and lays the foundation for long-term emotional and behavioral stability."
   },
   {
-    icon: Video,
-    title: "Real-Time Video Sessions",
-    description: "High-quality video calls with screen sharing, interactive tools, and secure session recording."
+    icon: Activity,
+    title: "OCCUPATIONAL THERAPY",
+    description: "Occupational therapy supports children with autism and ADHD in improving sensory processing, motor coordination, and daily living skills. It helps them gain independence, manage sensory sensitivities, and engage more meaningfully in school, home, and social environments."
   },
   {
-    icon: Calendar,
-    title: "Smart Booking & Scheduling",
-    description: "Easy appointment scheduling with calendar integration, automated reminders, and rescheduling options."
+    icon: MessageSquare,
+    title: "SPEECH THERAPY",
+    description: "Speech therapy helps children with autism and ADHD strengthen their communication and language skills. It enables them to express needs and emotions effectively, enhances social communication and attention, and supports meaningful participation in interactions at home, school, and the community."
   },
   {
-    icon: CreditCard,
-    title: "Safe Payments & Transactions",
-    description: "Secure payment processing with multiple options, insurance integration, and transparent pricing."
+    icon: Heart,
+    title: "CHILD/ADOLESCENT COUNSELLING",
+    description: "Counselling provides emotional support for children with autism and ADHD by helping them understand and manage their feelings, build resilience, and cope with stress. It also addresses anxiety, low self-esteem, and peer challenges, promoting emotional balance and overall mental well-being."
   },
   {
-    icon: Bell,
-    title: "In-App Notifications & Reminders",
-    description: "Stay connected with timely reminders, session notifications, and important updates from your therapist."
-  },
-  {
-    icon: BarChart3,
-    title: "Progress Reports & History",
-    description: "Track your child's progress with detailed reports, session notes, and milestone achievements."
+    icon: Users,
+    title: "PARENT COACHING",
+    description: "Parent coaching equips caregivers of children with autism and ADHD with practical strategies to manage behaviors, establish structure and routines, and reinforce therapy goals at home. It strengthens the parent–child bond, promotes consistency across settings, and empowers families to support their child's long-term development and emotional growth."
   }
 ];
 
@@ -66,87 +61,71 @@ const FeaturesSection: React.FC<FeaturesSectionProps> = ({ darkMode = false }) =
           <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${
             darkMode ? 'text-white' : 'text-gray-800'
           }`}>
-            Everything You Need for{" "}
-            <span className={darkMode ? 'text-accent-blue' : 'text-[#1A1A1A]'}>
-              Successful Therapy
+            Our <span className={darkMode ? 'text-accent-blue' : 'text-[#1A1A1A]'}>
+              Services
             </span>
           </h2>
           <p className={`text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed px-4 ${
             darkMode ? 'text-gray-300' : 'text-gray-600'
           }`}>
-            Our comprehensive platform provides all the tools families and therapists need 
-            for effective, secure, and convenient therapy sessions.
+            Comprehensive therapy services designed to support children with autism and ADHD 
+            and empower their families.
           </p>
           <div className={`w-24 h-1 rounded-full mx-auto mt-6 ${
             darkMode ? 'bg-accent-blue' : 'bg-[#1A1A1A]'
           }`} />
         </motion.div>
 
-        {/* Features Grid */}
+        {/* Services Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {features.map((feature, index) => (
+          {services.map((service, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
               transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
+              whileHover={{ scale: 1.05, y: -5 }}
             >
-              <Card className={`group hover:shadow-lg transition-shadow duration-300 h-full border ${
+              <Card className={`group h-full border transition-all duration-300 ${
                 darkMode 
-                  ? 'border-gray-700 bg-black' 
-                  : 'border-[#E6E6E6] bg-white'
+                  ? 'border-gray-700 bg-black hover:border-accent-blue/50 hover:shadow-[0_0_30px_rgba(34,211,238,0.3)]' 
+                  : 'border-[#E6E6E6] bg-white hover:border-accent-blue/50 hover:shadow-[0_0_30px_rgba(34,211,238,0.2)]'
               }`}>
               <CardHeader className="text-center pb-4">
-                <div className={`w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center ${
-                  darkMode ? 'bg-accent-blue/30' : 'bg-accent-blue/40'
-                }`}>
-                  <feature.icon className={`w-7 h-7 sm:w-8 sm:h-8 ${
-                    darkMode ? 'text-white' : 'text-[#1A1A1A]'
+                <motion.div 
+                  className={`w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                    darkMode ? 'bg-accent-blue/30 group-hover:bg-accent-blue/50' : 'bg-accent-blue/40 group-hover:bg-accent-blue/60'
+                  }`}
+                  whileHover={{ scale: 1.1 }}
+                >
+                  <service.icon className={`w-7 h-7 sm:w-8 sm:h-8 transition-colors duration-300 ${
+                    darkMode ? 'text-accent-blue' : 'text-accent-blue'
                   }`} />
-                </div>
-                <CardTitle className={`text-lg sm:text-xl font-semibold ${
-                  darkMode ? 'text-white' : 'text-[#1A1A1A]'
+                </motion.div>
+                <CardTitle className={`text-lg sm:text-xl font-bold ${
+                  darkMode ? 'text-white' : 'text-gray-800'
                 }`}>
-                  {feature.title}
+                  {service.title}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className={`text-sm sm:text-base text-center leading-relaxed ${
+                <div className="mb-2">
+                  <p className={`text-xs sm:text-sm font-semibold mb-2 ${
+                    darkMode ? 'text-accent-blue' : 'text-accent-blue'
+                  }`}>
+                    Importance:
+                  </p>
+                </div>
+                <p className={`text-sm sm:text-base leading-relaxed ${
                   darkMode ? 'text-gray-300' : 'text-gray-700'
                 }`}>
-                  {feature.description}
+                  {service.description}
                 </p>
                 </CardContent>
               </Card>
             </motion.div>
           ))}
         </div>
-
-        {/* Bottom CTA */}
-        <motion.div 
-          className="text-center mt-12 sm:mt-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
-        >
-          <p className={`text-base sm:text-lg mb-6 px-4 ${
-            darkMode ? 'text-gray-300' : 'text-gray-600'
-          }`}>
-            Ready to experience the future of therapy?
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4">
-            <Link to="/login">
-              <button className={`px-6 sm:px-8 py-3 sm:py-4 font-bold rounded-lg hover:shadow-lg transition-shadow duration-300 w-full sm:w-auto flex items-center justify-center ${
-                darkMode 
-                  ? 'bg-white text-black hover:bg-gray-200' 
-                  : 'bg-black text-white hover:bg-[#1A1A1A]'
-              }`}>
-                Sign In
-                <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
-              </button>
-            </Link>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

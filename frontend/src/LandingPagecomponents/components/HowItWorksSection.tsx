@@ -83,100 +83,135 @@ const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({ darkMode = false 
 
         {/* Timeline */}
         <div className="relative">
+          {/* Vertical Line (Desktop) */}
+          <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 transform -translate-x-1/2">
+            <div className={`w-0.5 h-full ${
+              darkMode ? 'bg-accent-blue/40' : 'bg-accent-blue/30'
+            }`} />
+          </div>
+
           {/* Steps */}
           <div className="space-y-8 sm:space-y-12 lg:space-y-16">
-            {steps.map((step, index) => (
-              <motion.div 
-                key={index}
-                className="flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-12"
-                initial={{ opacity: 0, y: 50 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
-              >
-                {/* Content */}
-                <div className="flex-1 text-center lg:text-left w-full">
-                  <div className={`rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border ${
-                    darkMode 
-                      ? 'bg-black border-gray-700' 
-                      : 'bg-white border-[#E6E6E6]'
-                  }`}>
-                    <div className="flex items-center justify-center lg:justify-start mb-4">
-                      <span className={`text-4xl sm:text-5xl lg:text-6xl font-bold mr-4 ${
-                        darkMode ? 'text-accent-blue/20' : 'text-accent-blue/20'
-                      }`}>
-                        {step.number}
-                      </span>
-                      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center ${
-                        darkMode ? 'bg-accent-blue/40' : 'bg-accent-blue/50'
-                      }`}>
-                        <step.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+            {steps.map((step, index) => {
+              const isEven = index % 2 === 0;
+              return (
+                <motion.div 
+                  key={index}
+                  className="flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-12"
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                  transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
+                >
+                  {/* Spacer for right-aligned items */}
+                  {!isEven && <div className="flex-1 hidden lg:block"></div>}
+
+                  {/* For left boxes: Box first, then circle */}
+                  {isEven && (
+                    <>
+                      {/* Content */}
+                      <div className="flex-1 w-full">
+                        <div className={`rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border ${
+                          darkMode 
+                            ? 'bg-black border-gray-700' 
+                            : 'bg-gradient-to-br from-white to-accent-blue/5 border-accent-blue/20'
+                        }`}>
+                          <div className="flex items-center justify-center lg:justify-start mb-4">
+                            <span className={`text-4xl sm:text-5xl lg:text-6xl font-bold mr-4 ${
+                              darkMode ? 'text-accent-blue/20' : 'text-black'
+                            }`}>
+                              {step.number}
+                            </span>
+                            <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center ${
+                              darkMode ? 'bg-accent-blue/40' : 'bg-black'
+                            }`}>
+                              <step.icon className={`w-5 h-5 sm:w-6 sm:h-6 ${
+                                darkMode ? 'text-white' : 'text-white'
+                              }`} />
+                            </div>
+                          </div>
+                          <h3 className={`text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-center lg:text-left ${
+                            darkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
+                            {step.title}
+                          </h3>
+                          <p className={`text-sm sm:text-base leading-relaxed text-center lg:text-left ${
+                            darkMode ? 'text-gray-300' : 'text-gray-600'
+                          }`}>
+                            {step.description}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    <h3 className={`text-xl sm:text-2xl font-bold mb-3 sm:mb-4 ${
-                      darkMode ? 'text-white' : 'text-gray-800'
-                    }`}>
-                      {step.title}
-                    </h3>
-                    <p className={`text-sm sm:text-base leading-relaxed ${
-                      darkMode ? 'text-gray-300' : 'text-gray-600'
-                    }`}>
-                      {step.description}
-                    </p>
-                  </div>
-                </div>
 
-                {/* Center Circle (Desktop) */}
-                <div className="hidden lg:flex items-center justify-center">
-                  <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
-                    darkMode ? 'bg-accent-blue/40' : 'bg-accent-blue/50'
-                  }`}>
-                    <div className={`w-8 h-8 rounded-full ${
-                      darkMode ? 'bg-gray-800' : 'bg-white'
-                    }`} />
-                  </div>
-                </div>
+                      {/* Center Circle (Desktop) */}
+                      <div className="hidden lg:flex items-center justify-center relative z-10 w-16">
+                        <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
+                          darkMode ? 'bg-accent-blue/40' : 'bg-accent-blue/50'
+                        }`}>
+                          <div className={`w-8 h-8 rounded-full ${
+                            darkMode ? 'bg-gray-800' : 'bg-white'
+                          }`} />
+                        </div>
+                      </div>
+                    </>
+                  )}
 
-                {/* Spacer for alternating layout */}
-                <div className="flex-1 hidden lg:block"></div>
-              </motion.div>
-            ))}
+                  {/* For right boxes: Circle first, then box */}
+                  {!isEven && (
+                    <>
+                      {/* Center Circle (Desktop) */}
+                      <div className="hidden lg:flex items-center justify-center relative z-10 w-16">
+                        <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
+                          darkMode ? 'bg-accent-blue/40' : 'bg-accent-blue/50'
+                        }`}>
+                          <div className={`w-8 h-8 rounded-full ${
+                            darkMode ? 'bg-gray-800' : 'bg-white'
+                          }`} />
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div className="flex-1 w-full">
+                        <div className={`rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border ${
+                          darkMode 
+                            ? 'bg-black border-gray-700' 
+                            : 'bg-gradient-to-br from-white to-accent-blue/5 border-accent-blue/20'
+                        }`}>
+                          <div className="flex items-center justify-center lg:justify-start mb-4">
+                            <span className={`text-4xl sm:text-5xl lg:text-6xl font-bold mr-4 ${
+                              darkMode ? 'text-accent-blue/20' : 'text-black'
+                            }`}>
+                              {step.number}
+                            </span>
+                            <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center ${
+                              darkMode ? 'bg-accent-blue/40' : 'bg-black'
+                            }`}>
+                              <step.icon className={`w-5 h-5 sm:w-6 sm:h-6 ${
+                                darkMode ? 'text-white' : 'text-white'
+                              }`} />
+                            </div>
+                          </div>
+                          <h3 className={`text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-center lg:text-left ${
+                            darkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
+                            {step.title}
+                          </h3>
+                          <p className={`text-sm sm:text-base leading-relaxed text-center lg:text-left ${
+                            darkMode ? 'text-gray-300' : 'text-gray-600'
+                          }`}>
+                            {step.description}
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {/* Spacer for left-aligned items */}
+                  {isEven && <div className="flex-1 hidden lg:block"></div>}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
-
-        {/* Bottom CTA */}
-        <motion.div 
-          className="text-center mt-12 sm:mt-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
-        >
-          <div className={`rounded-2xl p-6 sm:p-8 shadow-lg max-w-2xl mx-auto border ${
-            darkMode 
-              ? 'bg-black border-gray-700' 
-              : 'bg-white border-[#E6E6E6]'
-          }`}>
-            <h3 className={`text-xl sm:text-2xl font-bold mb-3 sm:mb-4 ${
-              darkMode ? 'text-white' : 'text-gray-800'
-            }`}>
-              Ready to Get Started?
-            </h3>
-            <p className={`text-sm sm:text-base mb-6 ${
-              darkMode ? 'text-gray-300' : 'text-gray-600'
-            }`}>
-              Join thousands of families who have found the right therapeutic support through Therabee.
-            </p>
-            <Link to="/login">
-              <button className={`px-6 sm:px-8 py-3 sm:py-4 font-semibold rounded-lg hover:shadow-lg transition-shadow duration-300 text-base sm:text-lg flex items-center justify-center mx-auto ${
-                darkMode 
-                  ? 'bg-white text-black hover:bg-gray-200' 
-                  : 'bg-black text-white hover:bg-[#1A1A1A]'
-              }`}>
-                Sign In
-                <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
-              </button>
-            </Link>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

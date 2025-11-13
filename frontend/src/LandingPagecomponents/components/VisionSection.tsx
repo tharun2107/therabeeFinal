@@ -58,44 +58,46 @@ const VisionSection: React.FC<VisionSectionProps> = ({ darkMode = false }) => {
               }`} />
             </div>
             
-            <div className="space-y-4">
-              <p className={`text-base sm:text-lg leading-relaxed ${
-                darkMode ? 'text-gray-300' : 'text-gray-600'
+            <div className="space-y-6">
+              <p className={`text-base sm:text-lg leading-relaxed font-medium ${
+                darkMode ? 'text-gray-300' : 'text-gray-700'
               }`}>
-                At Therabee, we aim to make therapy accessible, secure, and seamless 
-                for every child. We believe that mental health support should be available 
-                when and where families need it most.
+                We, at Therabee:
               </p>
               
-              <p className={`text-base sm:text-lg leading-relaxed ${
-                darkMode ? 'text-gray-300' : 'text-gray-600'
-              }`}>
-                Our platform bridges the gap between families seeking help and qualified 
-                therapists ready to provide compassionate, professional care through 
-                innovative technology.
-              </p>
-            </div>
-
-            {/* Mission Points */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6">
-              {['Accessible Care', 'Verified Therapists', 'Secure Platform', 'Family-Centered'].map((point, index) => (
-                <motion.div 
-                  key={point}
-                  className="flex items-center space-x-3"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.5, delay: 0.4 + index * 0.1, ease: "easeOut" }}
-                >
-                  <div className={`w-3 h-3 rounded-full ${
-                    darkMode ? 'bg-accent-blue' : 'bg-accent-blue'
-                  }`} />
-                  <span className={`font-medium ${
-                    darkMode ? 'text-gray-300' : 'text-gray-700'
-                  }`}>
-                    {point}
-                  </span>
-                </motion.div>
-              ))}
+              {/* Mission Points */}
+              <div className="space-y-4">
+                {[
+                  "connect families with certified therapists across the world",
+                  "Deliver accessible and affordable online therapy sessions",
+                  "support Early Intervention through personalized therapy sessions",
+                  "Empower parents through guidance, training and ongoing support",
+                  "Help every child reach their full potential through quality therapy."
+                ].map((point, index) => (
+                  <motion.div 
+                    key={index}
+                    className="flex items-start space-x-4"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1, ease: "easeOut" }}
+                  >
+                    <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ${
+                      darkMode ? 'bg-accent-blue' : 'bg-accent-blue'
+                    }`}>
+                      <span className={`text-sm font-bold ${
+                        darkMode ? 'text-white' : 'text-white'
+                      }`}>
+                        {index + 1}
+                      </span>
+                    </div>
+                    <p className={`text-base sm:text-lg leading-relaxed ${
+                      darkMode ? 'text-gray-300' : 'text-gray-600'
+                    }`}>
+                      {point}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </motion.div>
         </div>

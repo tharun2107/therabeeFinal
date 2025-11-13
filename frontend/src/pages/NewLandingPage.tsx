@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Stethoscope, Menu, X, Calendar, Moon, Sun, ArrowRight } from 'lucide-react'
+import { Menu, X, Calendar, Moon, Sun, ArrowRight } from 'lucide-react'
+import logo from '../assets/logo.png'
 import HeroSection from '../LandingPagecomponents/components/HeroSection'
 import VisionSection from '../LandingPagecomponents/components/VisionSection'
 import FeaturesSection from '../LandingPagecomponents/components/FeaturesSection'
+import CoreValuesSection from '../LandingPagecomponents/components/CoreValuesSection'
 import HowItWorksSection from '../LandingPagecomponents/components/HowItWorksSection'
 import TestimonialsSection from '../LandingPagecomponents/components/TestimonialsSection'
-import PricingSection from '../LandingPagecomponents/components/PricingSection'
-import CTASection from '../LandingPagecomponents/components/CTASection'
 import Footer from '../LandingPagecomponents/components/Footer'
 import BookDemoModal from '../components/BookDemoModal'
 
@@ -49,31 +49,24 @@ const NewLandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8">
           <div className="flex justify-between items-center h-12 sm:h-14 md:h-16">
             {/* Logo */}
-            <div className="flex items-center space-x-1.5 sm:space-x-2 flex-shrink-0">
-              <motion.div 
-                className="h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center shadow-lg gpu-accelerated"
+            <Link to="/" className="flex items-center space-x-1.5 sm:space-x-2 flex-shrink-0">
+              <motion.img 
+                src={logo}
+                alt="Therabee Logo"
+                className="h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10 object-contain"
                 whileHover={{ scale: 1.05 }}
-                animate={{ 
-                  rotate: [0, 3, -3, 0],
-                }}
-                transition={{ 
-                  rotate: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-                  scale: { duration: 0.2 }
-                }}
-              >
-                <Stethoscope className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-white" />
-              </motion.div>
+                transition={{ scale: { duration: 0.2 } }}
+              />
               <span className="text-sm sm:text-base md:text-lg lg:text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent whitespace-nowrap">
                 Therabee
               </span>
-            </div>
+            </Link>
 
             {/* Navigation Links - Show on md and up */}
             <div className="hidden md:flex items-center space-x-3 lg:space-x-6 xl:space-x-8 flex-1 justify-center max-w-2xl mx-auto">
               <a href="#features" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium text-sm lg:text-base whitespace-nowrap">Features</a>
               <a href="#how-it-works" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium text-sm lg:text-base whitespace-nowrap">How It Works</a>
               <a href="#testimonials" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium text-sm lg:text-base whitespace-nowrap">Testimonials</a>
-              <a href="#pricing" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium text-sm lg:text-base whitespace-nowrap">Pricing</a>
             </div>
 
             {/* Action Buttons - Show on md and up */}
@@ -203,17 +196,6 @@ const NewLandingPage: React.FC = () => {
                 >
                   Testimonials
                 </motion.a>
-                <motion.a
-                  href="#pricing"
-                  className="block px-3 py-2 text-gray-700 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-900 rounded-md transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.25 }}
-                  whileHover={{ x: 5 }}
-                >
-                  Pricing
-                </motion.a>
                 <motion.button
                   onClick={() => {
                     setShowDemoModal(true)
@@ -242,10 +224,9 @@ const NewLandingPage: React.FC = () => {
         <HeroSection darkMode={darkMode} onBookDemoClick={() => setShowDemoModal(true)} />
         <VisionSection darkMode={darkMode} />
         <FeaturesSection darkMode={darkMode} />
+        <CoreValuesSection darkMode={darkMode} />
         <HowItWorksSection darkMode={darkMode} />
         <TestimonialsSection darkMode={darkMode} />
-        <PricingSection darkMode={darkMode} />
-        <CTASection darkMode={darkMode} />
         
         {/* Demo Section - Before Footer */}
         <section className={`py-12 sm:py-16 lg:py-20 transition-colors duration-300 relative overflow-hidden ${
