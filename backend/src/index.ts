@@ -130,6 +130,7 @@
 import express from 'express';
 import cors, { CorsOptions } from "cors";
 import dotenv from 'dotenv';
+dotenv.config();
 
 // Import all routes
 import authRoutes from './api/auth/auth.routes.js';
@@ -143,7 +144,6 @@ import demoRoutes from './api/demo/demo.routes.js';
 import prisma from './utils/prisma.js';
 
 // Load environment variables
-dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -151,8 +151,11 @@ const PORT = process.env.PORT || 5000;
 const allowedOrigins = [
   'https://theraabee.vercel.app',
   'http://localhost:3000',
-  'http://localhost:5173', // Vite dev server
-  'https://theraabee.vercel.app',
+  'http://127.0.0.1:3000',
+  'http://localhost:5173',
+  'https://theraabee.in',
+  'https://www.theraabee.in',
+  'https://app.theraabee.in',
 ];
 
 const corsOptions: CorsOptions = {

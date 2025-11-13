@@ -959,3 +959,19 @@ export const googleOAuthHandler = async (req: Request, res: Response) => {
     res.status(status).json({ message: error.message || 'Google login failed' });
   }
 };
+
+export const  googleCallbackHandler = async (req: Request, res: Response) =>{
+    try {
+    const { code } = req.query.code as { code?: string };
+    if (!code) {
+      return res.status(400).json({ message: "Authorization code missing" });
+    }
+    res.status(200).json({
+      message: "Google callback received",
+      code: code,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Google OAuth error" });
+  }
+}

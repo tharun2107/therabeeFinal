@@ -56,7 +56,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.googleOAuthHandler = exports.changePasswordHandler = exports.loginHandler = exports.registerAdminHandler = exports.registerTherapistHandler = exports.registerParentHandler = void 0;
+exports.googleCallbackHandler = exports.googleOAuthHandler = exports.changePasswordHandler = exports.loginHandler = exports.registerAdminHandler = exports.registerTherapistHandler = exports.registerParentHandler = void 0;
 const authService = __importStar(require("./auth.service"));
 const jwt_1 = require("../../utils/jwt");
 const prisma_1 = __importDefault(require("../../utils/prisma"));
@@ -1013,3 +1013,20 @@ const googleOAuthHandler = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.googleOAuthHandler = googleOAuthHandler;
+const googleCallbackHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { code } = req.query.code;
+        if (!code) {
+            return res.status(400).json({ message: "Authorization code missing" });
+        }
+        res.status(200).json({
+            message: "Google callback received",
+            code: code,
+        });
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Google OAuth error" });
+    }
+});
+exports.googleCallbackHandler = googleCallbackHandler;

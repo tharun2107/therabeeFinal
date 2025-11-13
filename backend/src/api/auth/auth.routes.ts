@@ -25,6 +25,7 @@ router.post('/register/therapist', validate({body:registerTherapistSchema.shape.
 router.post('/login', validate({body :loginSchema.shape.body}), loginHandler);
 router.post('/change-password', validate({ body: changePasswordSchema.shape.body }), changePasswordHandler);
 router.post('/google', validate({ body: googleOAuthSchema.shape.body }), googleOAuthHandler);
+router.get('/google', googleOAuthHandler);
 
 // Restricted Admin Registration - should only be used for setup
 router.post('/register/adminthera-connect395', validate({body:registerAdminSchema.shape.body}), registerAdminHandler);
