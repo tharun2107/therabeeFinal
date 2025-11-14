@@ -5,6 +5,7 @@ import { PhoneOff } from 'lucide-react'
 interface VideoControlsProps {
   onEndCall: () => void
   participants: number
+  isEnding?: boolean
 }
 
 /**
@@ -13,7 +14,8 @@ interface VideoControlsProps {
  */
 const VideoControls: React.FC<VideoControlsProps> = ({
   onEndCall,
-  participants
+  participants,
+  isEnding = false
 }) => {
   const [showTooltip, setShowTooltip] = useState(false)
 
@@ -31,13 +33,23 @@ const VideoControls: React.FC<VideoControlsProps> = ({
             variant="destructive"
             size="lg"
             onClick={onEndCall}
-            onMouseEnter={() => setShowTooltip(true)}
+            onMouseEnter={() => !isEnding && setShowTooltip(true)}
             onMouseLeave={() => setShowTooltip(false)}
-            className="h-12 sm:h-14 px-4 sm:px-6 rounded-full bg-red-600 hover:bg-red-700 flex items-center gap-2 sm:gap-3 transition-all"
-            title="End call and provide feedback"
+            disabled={isEnding}
+            className="h-12 sm:h-14 px-4 sm:px-6 rounded-full bg-red-600 hover:bg-red-700 flex items-center gap-2 sm:gap-3 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            title={isEnding ? "Ending call..." : "End call and provide feedback"}
           >
-            <PhoneOff className="h-5 w-5 sm:h-6 sm:w-6 flex-shrink-0" />
-            <span className="text-sm sm:text-base font-semibold whitespace-nowrap">End Call</span>
+            {isEnding ? (
+              <>
+                <div className="animate-spin rounded-full h-5 w-5 sm:h-6 sm:w-6 border-2 border-white border-t-transparent flex-shrink-0"></div>
+                <span className="text-sm sm:text-base font-semibold whitespace-nowrap">Ending...</span>
+              </>
+            ) : (
+              <>
+                <PhoneOff className="h-5 w-5 sm:h-6 sm:w-6 flex-shrink-0" />
+                <span className="text-sm sm:text-base font-semibold whitespace-nowrap">End Call</span>
+              </>
+            )}
           </Button>
           
           {/* Tooltip on hover */}

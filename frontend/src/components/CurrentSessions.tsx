@@ -337,8 +337,8 @@ const CurrentSessionCard: React.FC<CurrentSessionProps> = ({ booking, onJoinSess
             </Button>
           </div>
 
-          {/* Zoom Link - Always show if available */}
-          {(booking.zoomLink || booking.meetingId) && (
+          {/* Zoom Link - Show if available and within join window */}
+          {(booking.zoomLink || booking.meetingId) && canJoinSession() && (
             <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mt-3">
               <div className="flex items-center space-x-2 mb-3">
                 <Video className="h-5 w-5 text-blue-600 dark:text-blue-400" />
@@ -475,8 +475,8 @@ const CurrentSessions: React.FC<CurrentSessionsProps> = ({ bookings, onJoinSessi
     const sessionDateMidnight = new Date(year, month, day, 0, 0, 0, 0)
     const isToday = todayMidnight.getTime() === sessionDateMidnight.getTime()
     
-    // Calculate session window (10 minutes before start to end time)
-    const sessionWindowStart = new Date(startTime.getTime() - 10 * 60 * 1000) // 10 minutes before
+    // Calculate session window (15 minutes before start to end time) - consistent with canJoinSession
+    const sessionWindowStart = new Date(startTime.getTime() - 15 * 60 * 1000) // 15 minutes before
     
     // Check if current time is within the session window (using local time)
     const nowTime = now.getTime()
@@ -486,7 +486,7 @@ const CurrentSessions: React.FC<CurrentSessionsProps> = ({ bookings, onJoinSessi
     // Show session if:
     // 1. It's scheduled for today
     // 2. Status is SCHEDULED
-    // 3. Current time is within the window (10 minutes before start to end time)
+    // 3. Current time is within the window (15 minutes before start to end time)
     const isWithinWindow = nowTime >= windowStartTime && nowTime <= endTimeTime
     const isScheduled = booking.status === 'SCHEDULED'
     
@@ -519,7 +519,7 @@ const CurrentSessions: React.FC<CurrentSessionsProps> = ({ bookings, onJoinSessi
     //   minutesUntilEnd: Math.round((endTime.getTime() - nowTime) / 60000)
     // })
     
-    // Show if it's scheduled for today and within the 10-minute window
+    // Show if it's scheduled for today and within the 15-minute window
     return willInclude
   }).sort((a: any, b: any) => {
     // Sort by local start time (extracting UTC hours/minutes and treating as local)

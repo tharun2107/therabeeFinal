@@ -141,6 +141,7 @@ import bookingRoutes from './api/booking/booking.routes.js';
 import slotRoutes from './api/slots/slots.routes.js';
 import feedbackRoutes from './api/feedback/feedback.routes.js';
 import demoRoutes from './api/demo/demo.routes.js';
+import therapyNotesRoutes from './api/therapy-notes/therapy-notes.routes.js';
 import prisma from './utils/prisma.js';
 
 // Load environment variables
@@ -218,6 +219,7 @@ app.use('/api/v1/bookings', bookingRoutes);
 app.use('/api/v1/slots', slotRoutes);
 app.use('/api/v1/feedback', feedbackRoutes);
 app.use('/api/v1/demo', demoRoutes);
+app.use('/api/v1/therapy-notes', therapyNotesRoutes);
 
 // Health endpoint for connectivity checks
 app.get('/api/v1/health', (_req, res) => {

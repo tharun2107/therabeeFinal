@@ -24,7 +24,8 @@ interface Therapist {
   name: string
   specialization: string
   baseCostPerSession: number
-  availableSlotTimes?: string[] // Array of time strings like ["09:00", "10:00", ...]
+  availableSlotTimes?: string[] // Array of time strings like ["09:00", "10:00", ...] (legacy)
+  selectedSlots?: string[] // Array of time strings like ["09:00", "10:00", ...] (new system)
 }
 
 interface BookingFormData {
@@ -79,8 +80,13 @@ const BookMonthlySessionModal: React.FC<BookMonthlySessionModalProps> = ({ onClo
 
   // Memoize availableSlots to prevent infinite re-renders
   // This ensures the array reference only changes when the therapist data actually changes
+  // Use selectedSlots (new system) if available, otherwise fall back to availableSlotTimes (old system)
   const availableSlots = React.useMemo(() => {
-    return selectedTherapistData?.availableSlotTimes || []
+    if (!selectedTherapistData) return []
+    // Prioritize selectedSlots (new system) over availableSlotTimes (legacy)
+    return (selectedTherapistData.selectedSlots && selectedTherapistData.selectedSlots.length > 0)
+      ? selectedTherapistData.selectedSlots
+      : (selectedTherapistData.availableSlotTimes || [])
   }, [selectedTherapistData])
 
   // Calculate end date (exactly one month from start date, minus 1 day)
@@ -566,9 +572,15 @@ const BookMonthlySessionModal: React.FC<BookMonthlySessionModalProps> = ({ onClo
                   <p className="text-xs text-yellow-700 dark:text-yellow-300">
                     Please select another therapist who has configured their time slots, or contact this therapist to set up their availability.
                   </p>
-                  {therapists.filter((t: Therapist) => t.availableSlotTimes && t.availableSlotTimes.length > 0).length > 0 && (
+                  {therapists.filter((t: Therapist) => 
+                    (t.selectedSlots && t.selectedSlots.length > 0) || 
+                    (t.availableSlotTimes && t.availableSlotTimes.length > 0)
+                  ).length > 0 && (
                     <p className="text-xs text-yellow-700 dark:text-yellow-300 mt-2 font-medium">
-                      Tip: {therapists.filter((t: Therapist) => t.availableSlotTimes && t.availableSlotTimes.length > 0).length} other therapist(s) have time slots available.
+                      Tip: {therapists.filter((t: Therapist) => 
+                        (t.selectedSlots && t.selectedSlots.length > 0) || 
+                        (t.availableSlotTimes && t.availableSlotTimes.length > 0)
+                      ).length} other therapist(s) have time slots available.
                     </p>
                   )}
                 </div>
