@@ -143,7 +143,6 @@ import feedbackRoutes from './api/feedback/feedback.routes.js';
 import demoRoutes from './api/demo/demo.routes.js';
 import therapyNotesRoutes from './api/therapy-notes/therapy-notes.routes.js';
 import prisma from './utils/prisma.js';
-
 // Load environment variables
 const app = express();
 const PORT = process.env.PORT || 5000;
