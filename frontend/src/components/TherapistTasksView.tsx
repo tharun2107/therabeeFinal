@@ -11,7 +11,11 @@ const TherapistTasksView: React.FC = () => {
     'therapistCurrentMonthTasks',
     therapyNotesAPI.getCurrentMonthTasksForTherapist,
     {
-      select: (response) => response.data,
+      select: (response) => {
+        // Response structure: { data: { success: true, data: [...] } }
+        // We need to extract the inner data array
+        return Array.isArray(response.data?.data) ? response.data.data : (Array.isArray(response.data) ? response.data : [])
+      },
       refetchInterval: 30000, // Auto-refresh every 30 seconds
       retry: 1,
       onError: (error: any) => {
@@ -45,7 +49,8 @@ const TherapistTasksView: React.FC = () => {
     )
   }
 
-  const sessions = tasksData?.data || []
+  // Ensure sessions is always an array
+  const sessions = Array.isArray(tasksData) ? tasksData : []
 
   if (sessions.length === 0) {
     return (

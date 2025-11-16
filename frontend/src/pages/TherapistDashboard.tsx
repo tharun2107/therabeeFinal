@@ -359,15 +359,23 @@ const TherapistDashboard: React.FC = () => {
                 My Time Slots
               </CardTitle>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                {profile.availableSlotTimes && profile.availableSlotTimes.length > 0
+                {(hasActiveSlotsData?.hasActiveSlots || (profile.selectedSlots && profile.selectedSlots.length > 0) || (profile.availableSlotTimes && profile.availableSlotTimes.length > 0))
                   ? 'Your available time slots that apply to all future dates. These slots are locked and cannot be changed.'
                   : 'Set up your available time slots to allow parents to book sessions with you.'}
               </p>
             </CardHeader>
             <CardContent className="p-6">
-              {profile.availableSlotTimes && profile.availableSlotTimes.length > 0 ? (
+              {(() => {
+                // Use selectedSlots (new system) if available, otherwise fall back to availableSlotTimes (old system)
+                const slotTimes = (profile.selectedSlots && profile.selectedSlots.length > 0) 
+                  ? profile.selectedSlots 
+                  : (profile.availableSlotTimes && profile.availableSlotTimes.length > 0)
+                    ? profile.availableSlotTimes
+                    : [];
+                
+                return slotTimes.length > 0 ? (
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
-                  {profile.availableSlotTimes.sort().map((time: string) => {
+                  {slotTimes.sort().map((time: string) => {
                     const [hours, minutes] = time.split(':').map(Number)
                     const endHour = (hours + 1) % 24
                     
@@ -491,7 +499,9 @@ const TherapistDashboard: React.FC = () => {
                     )
                   })}
                 </div>
-              ) : (
+                ) : null;
+              })()}
+              {!hasActiveSlotsData?.hasActiveSlots && !profile.selectedSlots?.length && !profile.availableSlotTimes?.length && (
                 <div className="text-center py-8">
                   <Clock className="h-16 w-16 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">

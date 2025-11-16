@@ -38,6 +38,7 @@ const VideoCallPage: React.FC = () => {
   const [showSessionReportForm, setShowSessionReportForm] = useState(false)
   const [sessionDetails, setSessionDetails] = useState<any>(null)
   const [showGuideTooltip, setShowGuideTooltip] = useState(false)
+  const [endingCall, setEndingCall] = useState(false)
 
   useEffect(() => {
     if (!bookingId) {
@@ -182,6 +183,8 @@ const VideoCallPage: React.FC = () => {
 
   const handleEndCall = async () => {
     console.log('🎯 handleEndCall called, user role:', user?.role)
+    setEndingCall(true) // Show loading animation
+    
     try {
       // Leave the meeting
       if (clientRef.current) {
@@ -240,6 +243,9 @@ const VideoCallPage: React.FC = () => {
         })
       }
       
+      // Small delay to ensure smooth transition
+      await new Promise(resolve => setTimeout(resolve, 500))
+      
       // Show appropriate form based on user role
       console.log('🎭 User role:', user?.role)
       if (user?.role === 'PARENT') {
@@ -275,6 +281,8 @@ const VideoCallPage: React.FC = () => {
       } else {
         navigate(-1)
       }
+    } finally {
+      setEndingCall(false) // Hide loading animation
     }
   }
 
@@ -362,7 +370,29 @@ const VideoCallPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-gray-900 text-white relative">
+      {/* Loading Overlay - Shows when ending call */}
+      {endingCall && (
+        <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="relative">
+              <div className="animate-spin rounded-full h-16 w-16 border-4 border-gray-600 border-t-white mx-auto mb-4"></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="h-12 w-12 rounded-full border-4 border-blue-200 border-t-blue-600 animate-spin"></div>
+              </div>
+            </div>
+            <p className="text-xl font-semibold text-white mb-2">Ending Session</p>
+            <p className="text-gray-400">
+              {user?.role === 'PARENT' 
+                ? 'Preparing feedback form...' 
+                : user?.role === 'THERAPIST'
+                ? 'Preparing session report...'
+                : 'Processing...'}
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Header - Minimal for better video focus */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-2 sm:p-3 bg-gray-800 border-b border-gray-700">
         <div className="flex items-center space-x-2 sm:space-x-3 flex-1 min-w-0">
@@ -463,6 +493,7 @@ const VideoCallPage: React.FC = () => {
       <VideoControls
         participants={participants}
         onEndCall={handleEndCall}
+        isEnding={endingCall}
       />
 
       {/* Participant Info */}
