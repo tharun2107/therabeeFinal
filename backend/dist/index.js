@@ -140,7 +140,6 @@ const feedback_routes_js_1 = __importDefault(require("./api/feedback/feedback.ro
 const demo_routes_js_1 = __importDefault(require("./api/demo/demo.routes.js"));
 const therapy_notes_routes_js_1 = __importDefault(require("./api/therapy-notes/therapy-notes.routes.js"));
 const prisma_js_1 = __importDefault(require("./utils/prisma.js"));
-const therapy_notes_routes_js_1 = __importDefault(require("./api/therapy-notes/therapy-notes.routes.js"));
 // Load environment variables
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 5000;
