@@ -187,14 +187,15 @@ const SessionDetails: React.FC<SessionDetailsProps> = ({ booking, userRole }) =>
   }
 
   const formatTime = (dateString: string) => {
-    // Use the local time representation directly from the Date object
-    // JavaScript Date automatically converts UTC to local time when we call getHours() and getMinutes()
+    // Slots are stored as UTC with literal hours/minutes (e.g., 19:00 UTC means 7 PM display time)
+    // Use UTC methods to extract the literal time, then display it
     const slotDate = new Date(dateString)
-    const localHours = slotDate.getHours()
-    const localMinutes = slotDate.getMinutes()
+    const utcHours = slotDate.getUTCHours()
+    const utcMinutes = slotDate.getUTCMinutes()
     
-    // Create a date with local hours/minutes to display correctly
-    const displayDate = new Date(2000, 0, 1, localHours, localMinutes)
+    // Create a date with UTC hours/minutes to display correctly
+    // This ensures 19:00 UTC is displayed as 7:00 PM regardless of user's timezone
+    const displayDate = new Date(2000, 0, 1, utcHours, utcMinutes)
     return displayDate.toLocaleTimeString([], { 
       hour: '2-digit', 
       minute: '2-digit',

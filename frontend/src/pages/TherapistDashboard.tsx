@@ -407,9 +407,11 @@ const TherapistDashboard: React.FC = () => {
                       if (!booking.timeSlot || booking.status !== 'SCHEDULED') return false
                       
                       // Check if booking time matches this slot time
+                      // Use UTC methods since slots are stored as UTC with literal hours/minutes
+                      // e.g., 19:00 UTC means 7 PM display time regardless of timezone
                       const bookingDate = new Date(booking.timeSlot.startTime)
-                      const bookingHours = bookingDate.getHours()
-                      const bookingMinutes = bookingDate.getMinutes()
+                      const bookingHours = bookingDate.getUTCHours()
+                      const bookingMinutes = bookingDate.getUTCMinutes()
                       return bookingHours === hours && bookingMinutes === minutes
                     })
                     

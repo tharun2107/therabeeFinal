@@ -174,14 +174,15 @@ const CurrentSessionCard: React.FC<CurrentSessionProps> = ({ booking, onJoinSess
   }
 
   const formatTime = (dateString: string) => {
-    // Use the local time representation directly from the Date object
-    // JavaScript Date automatically converts UTC to local time when we call getHours() and getMinutes()
+    // Slots are stored as UTC with literal hours/minutes (e.g., 19:00 UTC means 7 PM display time)
+    // Use UTC methods to extract the literal time, then display it
     const slotDate = new Date(dateString)
-    const localHours = slotDate.getHours()
-    const localMinutes = slotDate.getMinutes()
+    const utcHours = slotDate.getUTCHours()
+    const utcMinutes = slotDate.getUTCMinutes()
     
-    // Create a date with local hours/minutes to display correctly
-    const displayDate = new Date(2000, 0, 1, localHours, localMinutes)
+    // Create a date with UTC hours/minutes to display correctly
+    // This ensures 19:00 UTC is displayed as 7:00 PM regardless of user's timezone
+    const displayDate = new Date(2000, 0, 1, utcHours, utcMinutes)
     return displayDate.toLocaleTimeString([], { 
       hour: '2-digit', 
       minute: '2-digit',
@@ -447,27 +448,27 @@ const CurrentSessions: React.FC<CurrentSessionsProps> = ({ bookings, onJoinSessi
     
     const now = new Date()
     
-    // Parse the slot times - they are stored in the database as DateTime
-    // For recurring bookings: slots are created with setHours (local server time, then stored as UTC)
-    // For regular bookings: slots are created with Date.UTC (UTC time with literal hours)
-    // We need to use the local time representation directly from the Date object
+    // Parse the slot times - they are stored in the database as UTC with literal hours/minutes
+    // e.g., 19:00 UTC means 7 PM display time regardless of timezone
+    // Extract UTC hours/minutes and create local dates for comparison
     const slotStartUTC = new Date(booking.timeSlot.startTime)
     const slotEndUTC = new Date(booking.timeSlot.endTime)
     
-    // Use the local time representation directly - JavaScript Date automatically converts UTC to local
-    // This handles both cases: if stored as UTC, it converts to local; if stored as local, it's already local
-    const startTimeLocal = new Date(slotStartUTC)
-    const endTimeLocal = new Date(slotEndUTC)
+    // Get UTC hours/minutes (these represent the literal display time)
+    const startUTCHours = slotStartUTC.getUTCHours()
+    const startUTCMinutes = slotStartUTC.getUTCMinutes()
+    const endUTCHours = slotEndUTC.getUTCHours()
+    const endUTCMinutes = slotEndUTC.getUTCMinutes()
     
-    // Get the date components from the local time representation
-    const year = startTimeLocal.getFullYear()
-    const month = startTimeLocal.getMonth()
-    const day = startTimeLocal.getDate()
+    // Get the date components from UTC (year, month, day)
+    const year = slotStartUTC.getUTCFullYear()
+    const month = slotStartUTC.getUTCMonth()
+    const day = slotStartUTC.getUTCDate()
     
-    // Create new Date objects with just the date and time (no timezone conversion)
-    // This ensures we're working with the local time representation
-    const startTime = new Date(year, month, day, startTimeLocal.getHours(), startTimeLocal.getMinutes(), 0, 0)
-    const endTime = new Date(year, month, day, endTimeLocal.getHours(), endTimeLocal.getMinutes(), 0, 0)
+    // Create local Date objects with UTC hours/minutes (treating them as local time)
+    // This ensures 19:00 UTC is treated as 7:00 PM local time for comparison
+    const startTime = new Date(year, month, day, startUTCHours, startUTCMinutes, 0, 0)
+    const endTime = new Date(year, month, day, endUTCHours, endUTCMinutes, 0, 0)
     
     // Check if session is today - compare dates only (ignore time)
     // Normalize both dates to midnight for accurate comparison

@@ -509,9 +509,12 @@ export class RecurringBookingService {
       }
 
       // Check if slot is already booked
-      const slotStart = new Date(date);
-      slotStart.setHours(hours, minutes, 0, 0);
-      slotStart.setSeconds(0, 0);
+      // Use Date.UTC() to store literal hours/minutes (same as regular bookings)
+      // This ensures consistent timezone handling across all bookings
+      const year = date.getUTCFullYear();
+      const month = date.getUTCMonth();
+      const day = date.getUTCDate();
+      const slotStart = new Date(Date.UTC(year, month, day, hours, minutes, 0, 0));
       const slotEnd = new Date(slotStart.getTime() + slotDurationMinutes * 60000);
 
       const existingSlot = await prisma.timeSlot.findFirst({
@@ -690,9 +693,13 @@ export class RecurringBookingService {
 
         try {
           // Create time slot
-          const slotStart = new Date(date);
-          slotStart.setHours(hours, minutes, 0, 0);
-          slotStart.setSeconds(0, 0); // Ensure seconds and milliseconds are 0
+          // Use Date.UTC() to store literal hours/minutes (same as regular bookings)
+          // This ensures consistent timezone handling - slots are stored as UTC with literal time values
+          // e.g., 19:00 means 7 PM regardless of server or client timezone
+          const year = date.getUTCFullYear();
+          const month = date.getUTCMonth();
+          const day = date.getUTCDate();
+          const slotStart = new Date(Date.UTC(year, month, day, hours, minutes, 0, 0));
           const slotEnd = new Date(slotStart.getTime() + slotDurationMinutes * 60000);
 
           // Validate slot times
