@@ -30,7 +30,9 @@ const ParentProfile: React.FC = () => {
   const { data: profile, isLoading: profileLoading } = useQuery(
     'parentProfile',
     parentAPI.getProfile,
-    { select: (response) => response.data }
+    { 
+      select: (response) => response.data
+    }
   )
 
   const updateProfileMutation = useMutation(
@@ -198,7 +200,7 @@ const ParentProfile: React.FC = () => {
                   <div className="flex items-center space-x-2 p-3 bg-gray-50 dark:bg-black dark:border dark:border-gray-700 rounded-lg">
                     <Phone className="h-4 w-4 text-gray-500" />
                     <span className="text-gray-900 dark:text-white">
-                      {profile?.phone || 'Not provided'}
+                      {profile?.phone || profile?.user?.phone || 'Not provided'}
                     </span>
                   </div>
                 )}

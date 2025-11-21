@@ -15,7 +15,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.listActiveTherapists = exports.deleteChild = exports.updateChild = exports.addChild = exports.getChildren = exports.updateParentProfile = exports.getParentProfile = void 0;
 const prisma_1 = __importDefault(require("../../utils/prisma"));
 const getParentProfile = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    return prisma_1.default.parentProfile.findUnique({ where: { userId } });
+    return prisma_1.default.parentProfile.findUnique({
+        where: { userId },
+        include: {
+            user: {
+                select: {
+                    email: true,
+                    phone: true,
+                    createdAt: true,
+                }
+            },
+            children: {
+                select: {
+                    id: true,
+                }
+            },
+            bookings: {
+                select: {
+                    id: true,
+                }
+            }
+        }
+    });
 });
 exports.getParentProfile = getParentProfile;
 const updateParentProfile = (userId, input) => __awaiter(void 0, void 0, void 0, function* () {

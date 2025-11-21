@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rejectLeaveRequest = exports.approveLeaveRequest = exports.listLeaveRequests = exports.updatePlatformSettings = exports.getPlatformSettings = exports.updateProfile = exports.getProfile = exports.getAllBookings = exports.getChildSessions = exports.getAllChildren = exports.getTherapistSessions = exports.updateTherapistStatus = exports.getAllTherapists = void 0;
+exports.getAllConsultations = exports.rejectLeaveRequest = exports.approveLeaveRequest = exports.listLeaveRequests = exports.updatePlatformSettings = exports.getPlatformSettings = exports.updateProfile = exports.getProfile = exports.getAllBookings = exports.getChildSessions = exports.getAllChildren = exports.getTherapistSessions = exports.updateTherapistStatus = exports.getAllTherapists = void 0;
 const client_1 = require("@prisma/client");
 const notification_service_1 = require("../../services/notification.service");
 const prisma_1 = __importDefault(require("../../utils/prisma"));
@@ -250,3 +250,10 @@ const rejectLeaveRequest = (leaveId, reason) => __awaiter(void 0, void 0, void 0
     return { message: 'Leave rejected' };
 });
 exports.rejectLeaveRequest = rejectLeaveRequest;
+const getAllConsultations = () => __awaiter(void 0, void 0, void 0, function* () {
+    const consultations = yield prisma_1.default.consultation.findMany({
+        orderBy: { createdAt: 'desc' },
+    });
+    return consultations;
+});
+exports.getAllConsultations = getAllConsultations;

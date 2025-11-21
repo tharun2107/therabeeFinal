@@ -10,9 +10,8 @@ import {
   Stethoscope,
   Star,
   Plus,
-  Calendar,
-  History,
-  FileText
+  FileText,
+  PhoneCall
 } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
@@ -150,27 +149,7 @@ const AdminDashboard: React.FC = () => {
                 Manage your therapy platform and support your team.
               </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-2 md:gap-3 w-full lg:w-auto">
-              <Link to="/admin/demo-slots" className="w-full">
-                <Button
-                  variant="outline"
-                  className="w-full border-gray-border text-[#1A1A1A] hover:bg-[#F9F9F9] text-sm sm:text-sm md:text-base"
-                >
-                  <Calendar className="h-4 w-4 mr-2" />
-                  <span className="hidden sm:inline">Manage Demo Slots</span>
-                  <span className="sm:hidden">Demo Slots</span>
-                </Button>
-              </Link>
-              <Link to="/admin/demo-history" className="w-full">
-                <Button
-                  variant="outline"
-                  className="w-full border-gray-border text-[#1A1A1A] hover:bg-[#F9F9F9] text-sm sm:text-sm md:text-base"
-                >
-                  <History className="h-4 w-4 mr-2" />
-                  <span className="hidden sm:inline">Demo History</span>
-                  <span className="sm:hidden">History</span>
-                </Button>
-              </Link>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-2 sm:gap-2 md:gap-3 w-full lg:w-auto">
               <Link to="/admin/leaves" className="w-full">
                 <Button
                   variant="outline"
@@ -179,6 +158,16 @@ const AdminDashboard: React.FC = () => {
                   <FileText className="h-4 w-4 mr-2" />
                   <span className="hidden sm:inline">Leave Approval</span>
                   <span className="sm:hidden">Leaves</span>
+                </Button>
+              </Link>
+              <Link to="/admin/consultations" className="w-full">
+                <Button
+                  variant="outline"
+                  className="w-full border-gray-border text-[#1A1A1A] hover:bg-[#F9F9F9] text-sm sm:text-sm md:text-base"
+                >
+                  <PhoneCall className="h-4 w-4 mr-2" />
+                  <span className="hidden sm:inline">Consultations</span>
+                  <span className="sm:hidden">Consult</span>
                 </Button>
               </Link>
             </div>

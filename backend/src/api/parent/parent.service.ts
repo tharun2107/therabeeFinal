@@ -5,7 +5,28 @@ import prisma from '../../utils/prisma';
 type ChildInput = z.infer<typeof childSchema>['body'];
 
 export const getParentProfile = async (userId: string) => {
-    return prisma.parentProfile.findUnique({ where: { userId } });
+    return prisma.parentProfile.findUnique({ 
+        where: { userId },
+        include: {
+            user: {
+                select: {
+                    email: true,
+                    phone: true,
+                    createdAt: true,
+                }
+            },
+            children: {
+                select: {
+                    id: true,
+                }
+            },
+            bookings: {
+                select: {
+                    id: true,
+                }
+            }
+        }
+    });
 };
 
 export const updateParentProfile = async (userId: string, input: { name?: string; phone?: string }) => {

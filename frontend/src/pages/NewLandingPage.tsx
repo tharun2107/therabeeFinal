@@ -11,10 +11,12 @@ import HowItWorksSection from '../LandingPagecomponents/components/HowItWorksSec
 import TestimonialsSection from '../LandingPagecomponents/components/TestimonialsSection'
 import Footer from '../LandingPagecomponents/components/Footer'
 import BookDemoModal from '../components/BookDemoModal'
+import BookConsultationModal from '../components/BookConsultationModal'
 
 const NewLandingPage: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [showDemoModal, setShowDemoModal] = useState(false)
+  const [showConsultationModal, setShowConsultationModal] = useState(false)
   const [darkMode, setDarkMode] = useState(false)
 
   // Initialize dark mode from localStorage or system preference
@@ -75,7 +77,7 @@ const NewLandingPage: React.FC = () => {
             {/* Action Buttons - Show on md and up */}
             <div className="hidden md:flex items-center space-x-2 lg:space-x-3 xl:space-x-4 flex-shrink-0">
               <button
-                onClick={() => setShowDemoModal(true)}
+                onClick={() => setShowConsultationModal(true)}
                 className={`px-3 lg:px-4 py-1.5 lg:py-2 font-medium rounded-lg transition-all duration-300 flex items-center space-x-1.5 shadow-md hover:shadow-lg text-sm lg:text-base whitespace-nowrap ${
                   darkMode 
                     ? 'bg-white text-black hover:bg-gray-200' 
@@ -83,7 +85,7 @@ const NewLandingPage: React.FC = () => {
                 }`}
               >
                 <Calendar className="h-3.5 w-3.5 lg:h-4 lg:w-4" />
-                <span>Book Demo</span>
+                <span>Book Free Consultation</span>
               </button>
               <Link
                 to="/login"
@@ -109,7 +111,7 @@ const NewLandingPage: React.FC = () => {
             {/* Mobile Menu Button - Show on small devices (below md) */}
             <div className="md:hidden flex items-center space-x-1 sm:space-x-1.5 flex-shrink-0">
               <button
-                onClick={() => setShowDemoModal(true)}
+                onClick={() => setShowConsultationModal(true)}
                 className={`px-2 py-1.5 font-medium rounded-lg transition-all duration-300 flex items-center space-x-1 text-xs whitespace-nowrap shadow-md ${
                   darkMode 
                     ? 'bg-white text-black hover:bg-gray-200' 
@@ -117,7 +119,7 @@ const NewLandingPage: React.FC = () => {
                 }`}
               >
                 <Calendar className="h-3 w-3" />
-                <span>Demo</span>
+                <span>Consultation</span>
               </button>
               <button
                 onClick={toggleDarkMode}
@@ -220,7 +222,7 @@ const NewLandingPage: React.FC = () => {
                 </motion.a>
                 <motion.button
                   onClick={() => {
-                    setShowDemoModal(true)
+                    setShowConsultationModal(true)
                     setMobileMenuOpen(false)
                   }}
                   className="w-full mt-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 shadow-md"
@@ -230,7 +232,7 @@ const NewLandingPage: React.FC = () => {
                   whileHover={{ scale: 1.02 }}
                 >
                   <Calendar className="h-4 w-4" />
-                  <span>Book Demo Session</span>
+                  <span>Book Free Consultation</span>
                 </motion.button>
               </div>
             </motion.div>
@@ -240,10 +242,12 @@ const NewLandingPage: React.FC = () => {
 
       {/* Book Demo Modal */}
       <BookDemoModal isOpen={showDemoModal} onClose={() => setShowDemoModal(false)} />
+      {/* Book Consultation Modal */}
+      <BookConsultationModal isOpen={showConsultationModal} onClose={() => setShowConsultationModal(false)} />
 
       {/* Main Content */}
       <div className="pt-14 sm:pt-16">
-        <HeroSection darkMode={darkMode} onBookDemoClick={() => setShowDemoModal(true)} />
+        <HeroSection darkMode={darkMode} onBookDemoClick={() => setShowConsultationModal(true)} />
         <VisionSection darkMode={darkMode} />
         <FeaturesSection darkMode={darkMode} />
         <CoreValuesSection darkMode={darkMode} />
@@ -322,7 +326,7 @@ const NewLandingPage: React.FC = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <button
-                  onClick={() => setShowDemoModal(true)}
+                  onClick={() => setShowConsultationModal(true)}
                   className={`px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 font-bold rounded-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center mx-auto shadow-lg ${
                     darkMode 
                       ? 'bg-white text-black hover:bg-gray-200' 
@@ -336,7 +340,7 @@ const NewLandingPage: React.FC = () => {
                   >
                     <Calendar className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 mr-2" />
                   </motion.div>
-                  <span className="text-sm sm:text-base md:text-lg">Book Demo Session</span>
+                  <span className="text-sm sm:text-base md:text-lg">Book Consultation</span>
                   <motion.div
                     className="ml-2 gpu-accelerated"
                     animate={{ x: [0, 4, 0] }}

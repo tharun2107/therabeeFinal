@@ -25,6 +25,7 @@ const AdminProfile = lazy(() => import('./pages/AdminProfile'))
 const AdminSettings = lazy(() => import('./pages/AdminSettings'))
 const AdminDemoManagement = lazy(() => import('./pages/AdminDemoManagement'))
 const AdminDemoHistory = lazy(() => import('./pages/AdminDemoHistory'))
+const AdminConsultations = lazy(() => import('./pages/AdminConsultations'))
 const VideoCallPage = lazy(() => import('./pages/VideoCallPage'))
 const ParentBookings = lazy(() => import('./pages/ParentBookings'))
 const ParentAnalytics = lazy(() => import('./pages/ParentAnalytics'))
@@ -98,6 +99,7 @@ function AppRoutes() {
                 <Route path="/admin/demo-slots" element={<AdminDemoManagement />} />
                 <Route path="/admin/demo-history" element={<AdminDemoHistory />} />
                 <Route path="/admin/leaves" element={<LeaveApproval />} />
+                <Route path="/admin/consultations" element={<AdminConsultations />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Suspense>

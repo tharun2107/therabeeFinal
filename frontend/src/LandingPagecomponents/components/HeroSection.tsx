@@ -95,7 +95,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ darkMode = false, onBookDemoC
               }`}
             >
               <Calendar className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-              Book Demo Session
+              Book Free Consultation
             </Button>
           </motion.div>
 

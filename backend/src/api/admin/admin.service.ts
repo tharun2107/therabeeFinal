@@ -251,3 +251,11 @@ export const rejectLeaveRequest = async (leaveId: string, reason?: string) => {
   }
   return { message: 'Leave rejected' };
 };
+
+export const getAllConsultations = async () => {
+  const consultations = await prisma.consultation.findMany({
+    orderBy: { createdAt: 'desc' },
+  });
+
+  return consultations;
+};

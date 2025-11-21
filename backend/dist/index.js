@@ -139,6 +139,7 @@ const slots_routes_js_1 = __importDefault(require("./api/slots/slots.routes.js")
 const feedback_routes_js_1 = __importDefault(require("./api/feedback/feedback.routes.js"));
 const demo_routes_js_1 = __importDefault(require("./api/demo/demo.routes.js"));
 const therapy_notes_routes_js_1 = __importDefault(require("./api/therapy-notes/therapy-notes.routes.js"));
+const consultation_routes_js_1 = __importDefault(require("./api/consultation/consultation.routes.js"));
 const prisma_js_1 = __importDefault(require("./utils/prisma.js"));
 // Load environment variables
 const app = (0, express_1.default)();
@@ -209,6 +210,7 @@ app.use('/api/v1/slots', slots_routes_js_1.default);
 app.use('/api/v1/feedback', feedback_routes_js_1.default);
 app.use('/api/v1/demo', demo_routes_js_1.default);
 app.use('/api/v1/therapy-notes', therapy_notes_routes_js_1.default);
+app.use('/api/v1/consultations', consultation_routes_js_1.default);
 // Health endpoint for connectivity checks
 app.get('/api/v1/health', (_req, res) => {
     res.status(200).json({

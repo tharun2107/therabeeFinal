@@ -137,3 +137,13 @@ export const rejectLeaveRequestHandler = async (req: Request, res: Response) => 
     res.status(500).json({ message: 'Failed to reject leave request' });
   }
 };
+
+export const getAllConsultationsHandler = async (req: Request, res: Response) => {
+  try {
+    const consultations = await adminService.getAllConsultations();
+    res.status(200).json(consultations);
+  } catch (error: any) {
+    console.error('[admin.controller.getAllConsultationsHandler] Error:', error);
+    res.status(500).json({ message: 'Failed to retrieve consultations' });
+  }
+};

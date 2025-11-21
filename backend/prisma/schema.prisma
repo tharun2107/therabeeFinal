@@ -603,3 +603,21 @@ model DemoBooking {
   @@index([slotDate, slotHour])
   @@index([status])
 }
+
+//
+// CONSULTATION MODELS
+//
+
+model Consultation {
+  id              String   @id @default(cuid())
+  name            String
+  phone           String
+  email           String?
+  reason          String
+  additionalInfo  String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([phone])
+  @@index([createdAt])
+}

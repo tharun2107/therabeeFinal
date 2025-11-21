@@ -15,7 +15,8 @@ import {
   updatePlatformSettingsHandler,
   listLeaveRequestsHandler,
   approveLeaveRequestHandler,
-  rejectLeaveRequestHandler
+  rejectLeaveRequestHandler,
+  getAllConsultationsHandler
 } from './admin.controller';
 import { updateTherapistStatusSchema } from './admin.validation';
 
@@ -48,5 +49,8 @@ router.put('/settings', updatePlatformSettingsHandler);
 router.get('/leaves', listLeaveRequestsHandler);
 router.post('/leaves/:leaveId/approve', approveLeaveRequestHandler);
 router.post('/leaves/:leaveId/reject', rejectLeaveRequestHandler);
+
+// Consultations management
+router.get('/consultations', getAllConsultationsHandler);
 
 export default router;

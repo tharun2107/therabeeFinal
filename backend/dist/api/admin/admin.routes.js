@@ -28,4 +28,6 @@ router.put('/settings', admin_controller_1.updatePlatformSettingsHandler);
 router.get('/leaves', admin_controller_1.listLeaveRequestsHandler);
 router.post('/leaves/:leaveId/approve', admin_controller_1.approveLeaveRequestHandler);
 router.post('/leaves/:leaveId/reject', admin_controller_1.rejectLeaveRequestHandler);
+// Consultations management
+router.get('/consultations', admin_controller_1.getAllConsultationsHandler);
 exports.default = router;

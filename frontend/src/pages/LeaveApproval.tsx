@@ -11,7 +11,8 @@ import {
   X,
   FileText,
   User,
-  Eye
+  Eye,
+  Search
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
@@ -176,6 +177,7 @@ const LeaveDetailsModal: React.FC<LeaveDetailsModalProps> = ({
 
 const LeaveApproval: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState<'PENDING' | 'APPROVED' | 'REJECTED' | 'ALL'>('ALL')
+  const [searchQuery, setSearchQuery] = useState('')
   const [selectedLeave, setSelectedLeave] = useState<Leave | null>(null)
   const [showDetailsModal, setShowDetailsModal] = useState(false)
   const queryClient = useQueryClient()
@@ -332,9 +334,16 @@ const LeaveApproval: React.FC = () => {
     }
   }
 
-  const filteredLeaves = statusFilter === 'ALL' 
-    ? leaves 
-    : leaves.filter((leave: Leave) => leave.status === statusFilter)
+  const filteredLeaves = leaves.filter((leave: Leave) => {
+    // Filter by status
+    const matchesStatus = statusFilter === 'ALL' || leave.status === statusFilter
+    
+    // Filter by therapist name search
+    const matchesSearch = searchQuery.trim() === '' || 
+      leave.therapist.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+    
+    return matchesStatus && matchesSearch
+  })
 
   const pendingCount = leaves.filter((l: Leave) => l.status === 'PENDING').length
   const approvedCount = leaves.filter((l: Leave) => l.status === 'APPROVED').length
@@ -410,14 +419,27 @@ const LeaveApproval: React.FC = () => {
         </Card>
       </motion.div>
 
-      {/* Filter */}
+      {/* Search and Filter */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
       >
         <Card className="bg-white dark:bg-black shadow-lg rounded-lg border border-gray-200 dark:border-gray-700">
-          <CardContent className="p-4 sm:p-6">
+          <CardContent className="p-4 sm:p-6 space-y-4">
+            {/* Search Input */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-500" />
+              <input
+                type="text"
+                placeholder="Search by therapist name..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+              />
+            </div>
+            
+            {/* Status Filter Buttons */}
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
@@ -511,9 +533,11 @@ const LeaveApproval: React.FC = () => {
                 <Calendar className="h-12 w-12 mx-auto mb-4 text-gray-400 dark:text-gray-500" />
                 <p className="text-lg font-medium mb-2 text-gray-900 dark:text-white">No leave requests found</p>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
-                  {statusFilter === 'ALL' 
-                    ? 'No leave requests have been submitted yet.'
-                    : `No ${statusFilter.toLowerCase()} leave requests found.`}
+                  {searchQuery.trim() !== '' 
+                    ? `No leave requests found matching "${searchQuery}"${statusFilter !== 'ALL' ? ` with status ${statusFilter.toLowerCase()}` : ''}.`
+                    : statusFilter === 'ALL' 
+                      ? 'No leave requests have been submitted yet.'
+                      : `No ${statusFilter.toLowerCase()} leave requests found.`}
                 </p>
               </div>
             ) : (

@@ -167,37 +167,6 @@ export const therapistAPI = {
     api.put('/therapists/me/profile', data),
 }
 
-// Admin API
-export const adminAPI = {
-  getAllTherapists: () => api.get('/admin/therapists'),
-  updateTherapistStatus: (therapistId: string, status: string) =>
-    api.patch(`/admin/therapists/${therapistId}/status`, { status }),
-  getTherapistSessions: (therapistId: string) => api.get(`/admin/therapists/${therapistId}/sessions`),
-  getAllChildren: () => api.get('/admin/children'),
-  getChildSessions: (childId: string) => api.get(`/admin/children/${childId}/sessions`),
-  getAllBookings: () => api.get('/admin/bookings'),
-  getProfile: () => api.get('/admin/profile'),
-  updateProfile: (data: any) => api.put('/admin/profile', data),
-  getPlatformSettings: () => api.get('/admin/settings'),
-  updatePlatformSettings: (data: any) => api.put('/admin/settings', data),
-  getAllLeaves: (status?: 'PENDING' | 'APPROVED' | 'REJECTED') => {
-    console.log('[adminAPI.getAllLeaves] Fetching leaves with status:', status)
-    return api.get('/admin/leaves', { params: status ? { status } : {} }).then(response => {
-      console.log('[adminAPI.getAllLeaves] Full Response:', response)
-      console.log('[adminAPI.getAllLeaves] Response.data:', response.data)
-      console.log('[adminAPI.getAllLeaves] Response.data.data:', response.data?.data)
-      console.log('[adminAPI.getAllLeaves] Response.data.data.leaves:', response.data?.data?.leaves)
-      return response
-    }).catch(error => {
-      console.error('[adminAPI.getAllLeaves] Error:', error)
-      console.error('[adminAPI.getAllLeaves] Error response:', error.response)
-      throw error
-    })
-  },
-  getLeaveDetails: (leaveId: string) => api.get(`/admin/leaves/${leaveId}`),
-  processLeave: (leaveId: string, data: { action: 'APPROVE' | 'REJECT'; adminNotes?: string }) =>
-    api.put(`/admin/leaves/${leaveId}`, data),
-}
 
 // Booking API
 export const bookingAPI = {
@@ -349,4 +318,46 @@ export const adminDemoAPI = {
     converted?: boolean
     additionalNotes?: string
   }) => api.put(`/demo/admin/bookings/${bookingId}/notes`, data),
+}
+
+// Consultation API
+export const consultationAPI = {
+  createConsultation: (data: {
+    name: string
+    phone: string
+    reason: string
+  }) => api.post('/consultations', data),
+}
+
+// Update adminAPI to include consultations
+export const adminAPI = {
+  getAllTherapists: () => api.get('/admin/therapists'),
+  updateTherapistStatus: (therapistId: string, status: string) =>
+    api.patch(`/admin/therapists/${therapistId}/status`, { status }),
+  getTherapistSessions: (therapistId: string) => api.get(`/admin/therapists/${therapistId}/sessions`),
+  getAllChildren: () => api.get('/admin/children'),
+  getChildSessions: (childId: string) => api.get(`/admin/children/${childId}/sessions`),
+  getAllBookings: () => api.get('/admin/bookings'),
+  getProfile: () => api.get('/admin/profile'),
+  updateProfile: (data: any) => api.put('/admin/profile', data),
+  getPlatformSettings: () => api.get('/admin/settings'),
+  updatePlatformSettings: (data: any) => api.put('/admin/settings', data),
+  getAllLeaves: (status?: 'PENDING' | 'APPROVED' | 'REJECTED') => {
+    console.log('[adminAPI.getAllLeaves] Fetching leaves with status:', status)
+    return api.get('/admin/leaves', { params: status ? { status } : {} }).then(response => {
+      console.log('[adminAPI.getAllLeaves] Full Response:', response)
+      console.log('[adminAPI.getAllLeaves] Response.data:', response.data)
+      console.log('[adminAPI.getAllLeaves] Response.data.data:', response.data?.data)
+      console.log('[adminAPI.getAllLeaves] Response.data.data.leaves:', response.data?.data?.leaves)
+      return response
+    }).catch(error => {
+      console.error('[adminAPI.getAllLeaves] Error:', error)
+      console.error('[adminAPI.getAllLeaves] Error response:', error.response)
+      throw error
+    })
+  },
+  getLeaveDetails: (leaveId: string) => api.get(`/admin/leaves/${leaveId}`),
+  processLeave: (leaveId: string, data: { action: 'APPROVE' | 'REJECT'; adminNotes?: string }) =>
+    api.put(`/admin/leaves/${leaveId}`, data),
+  getAllConsultations: () => api.get('/admin/consultations'),
 }

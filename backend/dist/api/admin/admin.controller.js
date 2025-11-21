@@ -42,7 +42,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rejectLeaveRequestHandler = exports.approveLeaveRequestHandler = exports.listLeaveRequestsHandler = exports.updateTherapistStatusHandler = exports.updatePlatformSettingsHandler = exports.getPlatformSettingsHandler = exports.updateProfileHandler = exports.getProfileHandler = exports.getAllBookingsHandler = exports.getChildSessionsHandler = exports.getAllChildrenHandler = exports.getTherapistSessionsHandler = exports.getAllTherapistsHandler = void 0;
+exports.getAllConsultationsHandler = exports.rejectLeaveRequestHandler = exports.approveLeaveRequestHandler = exports.listLeaveRequestsHandler = exports.updateTherapistStatusHandler = exports.updatePlatformSettingsHandler = exports.getPlatformSettingsHandler = exports.updateProfileHandler = exports.getProfileHandler = exports.getAllBookingsHandler = exports.getChildSessionsHandler = exports.getAllChildrenHandler = exports.getTherapistSessionsHandler = exports.getAllTherapistsHandler = void 0;
 const adminService = __importStar(require("./admin.service"));
 const getAllTherapistsHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -196,3 +196,14 @@ const rejectLeaveRequestHandler = (req, res) => __awaiter(void 0, void 0, void 0
     }
 });
 exports.rejectLeaveRequestHandler = rejectLeaveRequestHandler;
+const getAllConsultationsHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const consultations = yield adminService.getAllConsultations();
+        res.status(200).json(consultations);
+    }
+    catch (error) {
+        console.error('[admin.controller.getAllConsultationsHandler] Error:', error);
+        res.status(500).json({ message: 'Failed to retrieve consultations' });
+    }
+});
+exports.getAllConsultationsHandler = getAllConsultationsHandler;
