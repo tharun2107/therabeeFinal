@@ -615,9 +615,12 @@ model Consultation {
   email           String?
   reason          String
   additionalInfo  String?
+  called          Boolean  @default(false)
+  adminNotes      String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
   @@index([phone])
   @@index([createdAt])
+  @@index([called])
 }

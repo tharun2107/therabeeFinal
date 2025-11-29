@@ -5,6 +5,8 @@ const auth_middleware_1 = require("../../middleware/auth.middleware");
 const validate_middleware_1 = require("../../middleware/validate.middleware");
 const client_1 = require("@prisma/client");
 const admin_controller_1 = require("./admin.controller");
+const leave_controller_1 = require("../../leaves/leave.controller");
+const leave_validation_1 = require("../../leaves/leave.validation");
 const admin_validation_1 = require("./admin.validation");
 const router = (0, express_1.Router)();
 // All routes in this file are protected and for Admins only
@@ -25,9 +27,14 @@ router.put('/profile', admin_controller_1.updateProfileHandler);
 router.get('/settings', admin_controller_1.getPlatformSettingsHandler);
 router.put('/settings', admin_controller_1.updatePlatformSettingsHandler);
 // Leave requests management
-router.get('/leaves', admin_controller_1.listLeaveRequestsHandler);
+// Use the newer leave management routes from leave.route.ts for better validation and error handling
+router.get('/leaves', leave_controller_1.getAllLeavesHandler); // Get all leaves with optional status filter
+router.get('/leaves/:leaveId', (0, validate_middleware_1.validate)({ params: leave_validation_1.getLeaveByIdSchema.shape.params }), leave_controller_1.getLeaveDetailsHandler); // Get leave details
+router.put('/leaves/:leaveId', (0, validate_middleware_1.validate)({ params: leave_validation_1.processLeaveParamsSchema, body: leave_validation_1.processLeaveBodySchema }), leave_controller_1.processLeaveHandler); // Approve/Reject leave
+// Keep old routes for backward compatibility (can be removed later)
 router.post('/leaves/:leaveId/approve', admin_controller_1.approveLeaveRequestHandler);
 router.post('/leaves/:leaveId/reject', admin_controller_1.rejectLeaveRequestHandler);
 // Consultations management
 router.get('/consultations', admin_controller_1.getAllConsultationsHandler);
+router.patch('/consultations/:consultationId', admin_controller_1.updateConsultationHandler);
 exports.default = router;

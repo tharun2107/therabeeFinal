@@ -140,6 +140,7 @@ const feedback_routes_js_1 = __importDefault(require("./api/feedback/feedback.ro
 const demo_routes_js_1 = __importDefault(require("./api/demo/demo.routes.js"));
 const therapy_notes_routes_js_1 = __importDefault(require("./api/therapy-notes/therapy-notes.routes.js"));
 const consultation_routes_js_1 = __importDefault(require("./api/consultation/consultation.routes.js"));
+const leave_route_js_1 = require("./leaves/leave.route.js");
 const prisma_js_1 = __importDefault(require("./utils/prisma.js"));
 // Load environment variables
 const app = (0, express_1.default)();
@@ -211,6 +212,8 @@ app.use('/api/v1/feedback', feedback_routes_js_1.default);
 app.use('/api/v1/demo', demo_routes_js_1.default);
 app.use('/api/v1/therapy-notes', therapy_notes_routes_js_1.default);
 app.use('/api/v1/consultations', consultation_routes_js_1.default);
+// Leave management routes (therapist only - admin routes are in admin.routes.ts)
+app.use('/api/v1/therapist', leave_route_js_1.therapistLeaveRoutes);
 // Health endpoint for connectivity checks
 app.get('/api/v1/health', (_req, res) => {
     res.status(200).json({

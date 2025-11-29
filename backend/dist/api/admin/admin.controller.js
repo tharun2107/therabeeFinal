@@ -42,7 +42,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllConsultationsHandler = exports.rejectLeaveRequestHandler = exports.approveLeaveRequestHandler = exports.listLeaveRequestsHandler = exports.updateTherapistStatusHandler = exports.updatePlatformSettingsHandler = exports.getPlatformSettingsHandler = exports.updateProfileHandler = exports.getProfileHandler = exports.getAllBookingsHandler = exports.getChildSessionsHandler = exports.getAllChildrenHandler = exports.getTherapistSessionsHandler = exports.getAllTherapistsHandler = void 0;
+exports.updateConsultationHandler = exports.getAllConsultationsHandler = exports.rejectLeaveRequestHandler = exports.approveLeaveRequestHandler = exports.listLeaveRequestsHandler = exports.updateTherapistStatusHandler = exports.updatePlatformSettingsHandler = exports.getPlatformSettingsHandler = exports.updateProfileHandler = exports.getProfileHandler = exports.getAllBookingsHandler = exports.getChildSessionsHandler = exports.getAllChildrenHandler = exports.getTherapistSessionsHandler = exports.getAllTherapistsHandler = void 0;
 const adminService = __importStar(require("./admin.service"));
 const getAllTherapistsHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -198,7 +198,15 @@ const rejectLeaveRequestHandler = (req, res) => __awaiter(void 0, void 0, void 0
 exports.rejectLeaveRequestHandler = rejectLeaveRequestHandler;
 const getAllConsultationsHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const consultations = yield adminService.getAllConsultations();
+        const { dateFilter, called } = req.query;
+        const filters = {};
+        if (dateFilter && ['today', 'lastWeek', 'lastMonth'].includes(dateFilter)) {
+            filters.dateFilter = dateFilter;
+        }
+        if (called !== undefined) {
+            filters.called = called === 'true';
+        }
+        const consultations = yield adminService.getAllConsultations(filters);
         res.status(200).json(consultations);
     }
     catch (error) {
@@ -207,3 +215,19 @@ const getAllConsultationsHandler = (req, res) => __awaiter(void 0, void 0, void 
     }
 });
 exports.getAllConsultationsHandler = getAllConsultationsHandler;
+const updateConsultationHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { consultationId } = req.params;
+        const { called, adminNotes } = req.body;
+        const consultation = yield adminService.updateConsultation(consultationId, {
+            called,
+            adminNotes,
+        });
+        res.status(200).json(consultation);
+    }
+    catch (error) {
+        console.error('[admin.controller.updateConsultationHandler] Error:', error);
+        res.status(500).json({ message: 'Failed to update consultation' });
+    }
+});
+exports.updateConsultationHandler = updateConsultationHandler;

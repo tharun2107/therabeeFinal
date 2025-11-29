@@ -359,5 +359,12 @@ export const adminAPI = {
   getLeaveDetails: (leaveId: string) => api.get(`/admin/leaves/${leaveId}`),
   processLeave: (leaveId: string, data: { action: 'APPROVE' | 'REJECT'; adminNotes?: string }) =>
     api.put(`/admin/leaves/${leaveId}`, data),
-  getAllConsultations: () => api.get('/admin/consultations'),
+  getAllConsultations: (filters?: { dateFilter?: 'today' | 'lastWeek' | 'lastMonth'; called?: boolean }) => {
+    const params: any = {};
+    if (filters?.dateFilter) params.dateFilter = filters.dateFilter;
+    if (filters?.called !== undefined) params.called = filters.called.toString();
+    return api.get('/admin/consultations', { params });
+  },
+  updateConsultation: (consultationId: string, data: { called?: boolean; adminNotes?: string }) =>
+    api.patch(`/admin/consultations/${consultationId}`, data),
 }

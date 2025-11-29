@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllConsultations = exports.rejectLeaveRequest = exports.approveLeaveRequest = exports.listLeaveRequests = exports.updatePlatformSettings = exports.getPlatformSettings = exports.updateProfile = exports.getProfile = exports.getAllBookings = exports.getChildSessions = exports.getAllChildren = exports.getTherapistSessions = exports.updateTherapistStatus = exports.getAllTherapists = void 0;
+exports.updateConsultation = exports.getAllConsultations = exports.rejectLeaveRequest = exports.approveLeaveRequest = exports.listLeaveRequests = exports.updatePlatformSettings = exports.getPlatformSettings = exports.updateProfile = exports.getProfile = exports.getAllBookings = exports.getChildSessions = exports.getAllChildren = exports.getTherapistSessions = exports.updateTherapistStatus = exports.getAllTherapists = void 0;
 const client_1 = require("@prisma/client");
 const notification_service_1 = require("../../services/notification.service");
 const prisma_1 = __importDefault(require("../../utils/prisma"));
@@ -250,10 +250,47 @@ const rejectLeaveRequest = (leaveId, reason) => __awaiter(void 0, void 0, void 0
     return { message: 'Leave rejected' };
 });
 exports.rejectLeaveRequest = rejectLeaveRequest;
-const getAllConsultations = () => __awaiter(void 0, void 0, void 0, function* () {
+const getAllConsultations = (filters) => __awaiter(void 0, void 0, void 0, function* () {
+    const where = {};
+    // Apply date filter
+    if (filters === null || filters === void 0 ? void 0 : filters.dateFilter) {
+        const now = new Date();
+        let startDate;
+        switch (filters.dateFilter) {
+            case 'today':
+                startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                break;
+            case 'lastWeek':
+                startDate = new Date(now);
+                startDate.setDate(now.getDate() - 7);
+                break;
+            case 'lastMonth':
+                startDate = new Date(now);
+                startDate.setMonth(now.getMonth() - 1);
+                break;
+            default:
+                startDate = new Date(0); // Beginning of time
+        }
+        where.createdAt = {
+            gte: startDate,
+        };
+    }
+    // Apply called filter
+    if ((filters === null || filters === void 0 ? void 0 : filters.called) !== undefined) {
+        where.called = filters.called;
+    }
     const consultations = yield prisma_1.default.consultation.findMany({
+        where,
         orderBy: { createdAt: 'desc' },
     });
     return consultations;
 });
 exports.getAllConsultations = getAllConsultations;
+const updateConsultation = (consultationId, data) => __awaiter(void 0, void 0, void 0, function* () {
+    const consultation = yield prisma_1.default.consultation.update({
+        where: { id: consultationId },
+        data: Object.assign(Object.assign({}, (data.called !== undefined && { called: data.called })), (data.adminNotes !== undefined && { adminNotes: data.adminNotes })),
+    });
+    return consultation;
+});
+exports.updateConsultation = updateConsultation;

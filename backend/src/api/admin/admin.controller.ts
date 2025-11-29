@@ -140,10 +140,42 @@ export const rejectLeaveRequestHandler = async (req: Request, res: Response) => 
 
 export const getAllConsultationsHandler = async (req: Request, res: Response) => {
   try {
-    const consultations = await adminService.getAllConsultations();
+    const { dateFilter, called } = req.query;
+    
+    const filters: {
+      dateFilter?: 'today' | 'lastWeek' | 'lastMonth';
+      called?: boolean;
+    } = {};
+
+    if (dateFilter && ['today', 'lastWeek', 'lastMonth'].includes(dateFilter as string)) {
+      filters.dateFilter = dateFilter as 'today' | 'lastWeek' | 'lastMonth';
+    }
+
+    if (called !== undefined) {
+      filters.called = called === 'true';
+    }
+
+    const consultations = await adminService.getAllConsultations(filters);
     res.status(200).json(consultations);
   } catch (error: any) {
     console.error('[admin.controller.getAllConsultationsHandler] Error:', error);
     res.status(500).json({ message: 'Failed to retrieve consultations' });
+  }
+};
+
+export const updateConsultationHandler = async (req: Request, res: Response) => {
+  try {
+    const { consultationId } = req.params;
+    const { called, adminNotes } = req.body;
+
+    const consultation = await adminService.updateConsultation(consultationId, {
+      called,
+      adminNotes,
+    });
+
+    res.status(200).json(consultation);
+  } catch (error: any) {
+    console.error('[admin.controller.updateConsultationHandler] Error:', error);
+    res.status(500).json({ message: 'Failed to update consultation' });
   }
 };

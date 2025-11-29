@@ -16,8 +16,11 @@ import {
   listLeaveRequestsHandler,
   approveLeaveRequestHandler,
   rejectLeaveRequestHandler,
-  getAllConsultationsHandler
+  getAllConsultationsHandler,
+  updateConsultationHandler
 } from './admin.controller';
+import { processLeaveHandler, getLeaveDetailsHandler, getAllLeavesHandler } from '../../leaves/leave.controller';
+import { processLeaveParamsSchema, processLeaveBodySchema, getLeaveByIdSchema } from '../../leaves/leave.validation';
 import { updateTherapistStatusSchema } from './admin.validation';
 
 const router = Router();
@@ -46,11 +49,16 @@ router.get('/settings', getPlatformSettingsHandler);
 router.put('/settings', updatePlatformSettingsHandler);
 
 // Leave requests management
-router.get('/leaves', listLeaveRequestsHandler);
+// Use the newer leave management routes from leave.route.ts for better validation and error handling
+router.get('/leaves', getAllLeavesHandler); // Get all leaves with optional status filter
+router.get('/leaves/:leaveId', validate({ params: getLeaveByIdSchema.shape.params }), getLeaveDetailsHandler); // Get leave details
+router.put('/leaves/:leaveId', validate({ params: processLeaveParamsSchema, body: processLeaveBodySchema }), processLeaveHandler); // Approve/Reject leave
+// Keep old routes for backward compatibility (can be removed later)
 router.post('/leaves/:leaveId/approve', approveLeaveRequestHandler);
 router.post('/leaves/:leaveId/reject', rejectLeaveRequestHandler);
 
 // Consultations management
 router.get('/consultations', getAllConsultationsHandler);
+router.patch('/consultations/:consultationId', updateConsultationHandler);
 
 export default router;

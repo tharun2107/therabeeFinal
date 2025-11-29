@@ -252,10 +252,62 @@ export const rejectLeaveRequest = async (leaveId: string, reason?: string) => {
   return { message: 'Leave rejected' };
 };
 
-export const getAllConsultations = async () => {
+export const getAllConsultations = async (filters?: {
+  dateFilter?: 'today' | 'lastWeek' | 'lastMonth';
+  called?: boolean;
+}) => {
+  const where: any = {};
+
+  // Apply date filter
+  if (filters?.dateFilter) {
+    const now = new Date();
+    let startDate: Date;
+
+    switch (filters.dateFilter) {
+      case 'today':
+        startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        break;
+      case 'lastWeek':
+        startDate = new Date(now);
+        startDate.setDate(now.getDate() - 7);
+        break;
+      case 'lastMonth':
+        startDate = new Date(now);
+        startDate.setMonth(now.getMonth() - 1);
+        break;
+      default:
+        startDate = new Date(0); // Beginning of time
+    }
+
+    where.createdAt = {
+      gte: startDate,
+    };
+  }
+
+  // Apply called filter
+  if (filters?.called !== undefined) {
+    where.called = filters.called;
+  }
+
   const consultations = await prisma.consultation.findMany({
+    where,
     orderBy: { createdAt: 'desc' },
   });
 
   return consultations;
+};
+
+export const updateConsultation = async (
+  consultationId: string,
+  data: { called?: boolean; adminNotes?: string }
+) => {
+  const consultation = await prisma.consultation.update({
+    where: { id: consultationId },
+    data: {
+      ...(data.called !== undefined && { called: data.called }),
+      ...(data.adminNotes !== undefined && { adminNotes: data.adminNotes }),
+    },
+  });
+
+  return consultation;
 };
